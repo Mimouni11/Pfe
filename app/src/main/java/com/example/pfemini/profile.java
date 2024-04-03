@@ -15,7 +15,7 @@ import android.widget.TextView;
 public class profile extends AppCompatActivity {
 
     private static final int AVATAR_SELECTION_REQUEST_CODE = 1;
-    private static final String PREFS_NAME = "MyPrefs";
+    public static final String PREFS_NAME = "MyPrefs";
     private static final String KEY_SELECTED_AVATAR = "selectedAvatar";
 
     private Button modifyButton;

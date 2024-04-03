@@ -1,9 +1,15 @@
 package com.example.pfemini;
 
+import com.example.pfemini.mecano.Task;
+
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 public interface Apiservices {
 
@@ -30,7 +36,8 @@ public interface Apiservices {
             @Field("password") String password,
             @Field("role") String role
     );
-
+    @GET("/tasks")
+    Call<List<Task>> getTasks(@Query("username") String username);
 
 
 

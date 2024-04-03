@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.pfemini.mecano.mecano_main;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -74,11 +76,11 @@ public class login extends AppCompatActivity {
                                 SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putString("username", username);
-                                editor.putString("role", role); // Save the user's role
+                                editor.putString("role", role);
                                 editor.apply();
 
                                 if ("mecano".equals(role)) {
-                                    Intent intent = new Intent(login.this, MecanoActivity.class);
+                                    Intent intent = new Intent(login.this, mecano_main.class);
                                     startActivity(intent);
                                 } else if ("driver".equals(role)) {
                                     Intent intent = new Intent(login.this, MainActivity.class);
