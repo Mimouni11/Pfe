@@ -11,4 +11,6 @@
     <string name="login_failed">"Login failed"</string>
     <string name="bold">Bold</string>
     <string name="italic">Italic</string>
+    <string name="title_tasks">Your tasks for today - %s</string>
+
 </resources>

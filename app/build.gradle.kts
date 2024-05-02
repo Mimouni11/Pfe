@@ -50,6 +50,9 @@ dependencies {
     implementation("com.google.android.gms:play-services-maps:18.2.0")
     implementation ("org.osmdroid:osmdroid-android:6.1.7")
     implementation ("com.itextpdf:itextg:5.5.10")
+    implementation ("com.ramotion.circlemenu:circle-menu:0.3.2")
+    implementation ("pl.droidsonroids.gif:android-gif-drawable:1.2.28")
+    implementation ("com.github.denzcoskun:ImageSlideshow:0.1.2")
 
     testImplementation("junit:junit:4.13.2")
 

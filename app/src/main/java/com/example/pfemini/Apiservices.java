@@ -1,6 +1,8 @@
 package com.example.pfemini;
 
-import com.example.pfemini.mecano.Task;
+import com.example.pfemini.Models.DriverTask;
+import com.example.pfemini.Models.Tasks_driver;
+import com.google.gson.JsonObject;
 
 import java.util.List;
 
@@ -37,7 +39,20 @@ public interface Apiservices {
             @Field("role") String role
     );
     @GET("/tasks")
-    Call<List<Task>> getTasks(@Query("username") String username);
+    Call<JsonObject> getTasks(@Query("username") String username);
+
+
+    @GET("/tasks-driver")
+    Call<List<DriverTask>> getTasksForScannedContent(@Query("content") String content);
+
+
+    @FormUrlEncoded
+    @POST("/update_task_status")
+    Call<Void> updateTaskStatus(
+            @Field("username") String username,
+            @Field("taskName") String taskName,
+            @Field("status") String status
+    );
 
 
 

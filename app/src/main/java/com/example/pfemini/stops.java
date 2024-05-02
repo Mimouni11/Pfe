@@ -1,5 +1,6 @@
 package com.example.pfemini;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -8,6 +9,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.ramotion.circlemenu.CircleMenuView;
 
 public class stops extends AppCompatActivity {
 
@@ -32,29 +35,24 @@ public class stops extends AppCompatActivity {
         }
 
         // Display icons
-        ImageView icon1 = findViewById(R.id.icon1);
-        ImageView icon2 = findViewById(R.id.icon2);
-        // Set click listeners for the icons
-        icon1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Handle click action for icon1 (rest icon)
-                // Call the Maps API to suggest a resting location
-                // Example: You can start a new activity where the user selects two locations
-                // Then, you can calculate a midpoint between these locations and suggest it as a resting location
-                Intent intent = new Intent(stops.this, FuelingAct.class);
-                startActivity(intent);
-            }
-        });
 
-        icon2.setOnClickListener(new View.OnClickListener() {
+        final CircleMenuView menu = findViewById(R.id.menu);
+        menu.setEventListener(new CircleMenuView.EventListener() {
             @Override
-            public void onClick(View v) {
-                // Handle click action for icon2
-                // For example, display a message or perform an action
-                Toast.makeText(stops.this, "Icon 2 clicked", Toast.LENGTH_SHORT).show();
+            public void onButtonClickAnimationEnd(@NonNull CircleMenuView view, int index) {
+                switch (index) {
+                    case 0:
+                        // Button 0 clicked, navigate to ActivityA
+                        startActivity(new Intent(stops.this, FuelingAct.class));
+                        break;
+                    case 1:
+                        // Button 1 clicked, navigate to ActivityB
+                        // Add your navigation code here
+                        break;
+                    default:
+                        break;
+                }
             }
-        });
+        }); // Add this closing parenthesis
     }
 }
-

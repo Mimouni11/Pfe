@@ -1,44 +1,163 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
+
     android:layout_height="match_parent"
-    android:padding="16dp">
+
+    tools:context=".login"
+
+    android:orientation="vertical"
+
+    android:background="#fff"
+
+    android:padding="20dp">
+
+
 
     <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/ic_launcher_foreground"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
-        android:id="@+id/imageView"
-        android:contentDescription="@string/app_name"/>
 
-    <EditText
-        android:id="@+id/editTextUsername"
-        android:layout_width="match_parent"
+        android:id="@+id/logo_image"
+
+        android:layout_width="150dp"
+
+        android:layout_height="150dp"
+
+        android:transitionName="logo_image"
+
+        android:src="@drawable/semi"/>
+
+    <TextView
+
+        android:id="@+id/logo_name"
+
+        android:layout_width="wrap_content"
+
         android:layout_height="wrap_content"
-        android:layout_below="@id/imageView"
-        android:layout_marginTop="40dp"
-        android:hint="Username"
-        android:inputType="text"/>
 
-    <EditText
-        android:id="@+id/editTextPassword"
-        android:layout_width="match_parent"
+        android:fontFamily="@font/bungee"
+
+        android:text="Hello there, marhbe Bik "
+
+        android:textColor="#000"
+
+
+        android:textSize="40sp"
+        android:transitionName="logo_text" />
+
+    <TextView
+
+        android:id="@+id/slogan_name"
+
+        android:layout_width="wrap_content"
+
         android:layout_height="wrap_content"
-        android:layout_below="@id/editTextUsername"
-        android:layout_marginTop="16dp"
-        android:hint="Password"
-        android:inputType="textPassword"/>
 
-    <Button
-        android:id="@+id/buttonLogin"
+        android:fontFamily="@font/adamina"
+
+        android:text="Sign In to continue"
+        android:textSize="18sp" />
+
+    <LinearLayout
+
         android:layout_width="match_parent"
+
         android:layout_height="wrap_content"
-        android:layout_below="@id/editTextPassword"
-        android:layout_marginTop="32dp"
-        android:text="Login"/>
 
-    
+        android:layout_marginTop="20dp"
 
-</RelativeLayout>
+        android:layout_marginBottom="20dp"
+
+        android:orientation="vertical">
+
+        <com.google.android.material.textfield.TextInputLayout
+
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+
+            android:id="@+id/username"
+
+            android:hint="Username"
+
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+
+                android:id="@+id/editTextUsername"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/adamina" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+
+            android:id="@+id/password"
+
+            android:hint="Password"
+
+            app:passwordToggleEnabled="true"
+
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+
+                android:id="@+id/editTextPassword"
+
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/adamina"
+                android:inputType="textPassword" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+
+            android:layout_width="200dp"
+
+            android:layout_height="wrap_content"
+
+            android:layout_gravity="right"
+
+            android:layout_margin="5dp"
+
+            android:background="#00000000"
+
+            android:elevation="0dp"
+
+            android:text="Forget Password?" />
+
+        <Button
+
+            android:id="@+id/buttonLogin"
+
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="5dp"
+
+            android:layout_marginBottom="5dp"
+
+            android:background="#000"
+
+            android:fontFamily="@font/adamina"
+            android:text="GO"
+            android:textColor="#fff" />
+
+
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -10,9 +10,11 @@ import android.view.MenuItem;
 import com.example.pfemini.MainActivity;
 import com.example.pfemini.Plannification;
 import com.example.pfemini.R;
+import com.example.pfemini.communication;
 import com.example.pfemini.profile;
 import com.example.pfemini.scan;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.ramotion.circlemenu.CircleMenuView;
 
 public class mecano_main extends AppCompatActivity {
 
@@ -20,28 +22,37 @@ public class mecano_main extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mecano_main);
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        final CircleMenuView menu = findViewById(R.id.menu);
+        menu.setEventListener(new CircleMenuView.EventListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                int itemId = item.getItemId();
-                if (itemId == R.id.navigation_item1) {
-                    Intent intent = new Intent(mecano_main.this, scan.class);
-                    startActivity(intent);
-                } else if (itemId == R.id.navigation_item2) {
-                    Intent intent = new Intent(mecano_main.this, Rapport_activity.class);
-                    startActivity(intent);
-                } else if (itemId == R.id.navigation_item3) {
-                    Intent intent = new Intent(mecano_main.this, Tasks_activity.class);
-                    startActivity(intent);
-                } else if (itemId == R.id.navigation_item4) {
-                    // Handle profile item click
-                    // Navigate to the profile page
-                    Intent intent = new Intent(mecano_main.this, profile.class);
-                    startActivity(intent);
+            public void onButtonClickAnimationEnd(@NonNull CircleMenuView view, int index) {
+                switch (index) {
+                    case 0:
+                        // Button 0 clicked, navigate to ActivityA
+
+                        break;
+                    case 1:
+                        // Button 1 clicked, navigate to ActivityB
+                        startActivity(new Intent(mecano_main.this, Tasks_activity.class));
+                        break;
+                    // Add more cases for additional buttons if needed
+                    case 2:
+                        // Button 1 clicked, navigate to ActivityB
+                        startActivity(new Intent(mecano_main.this, Rapport_activity.class));
+                        break;
+                    case 3:
+                        // Button 1 clicked, navigate to ActivityB
+
+                        break;
+                    case 4:
+                        // Button 1 clicked, navigate to ActivityB
+                        startActivity(new Intent(mecano_main.this, profile.class));
+
+                        break;
+
+                    default:
+                        break;
                 }
-                return true;
             }
         });
-    }
-}
+    }}

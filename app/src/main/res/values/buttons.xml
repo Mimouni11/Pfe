@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="icons">
+        <item>@drawable/home</item>
+        <item>@drawable/scanqr</item>
+        <item>@drawable/plans</item>
+        <item>@drawable/comm</item>
+        <item>@drawable/prof</item>
+    </array>
+
+    <array name="icons_stops">
+        <item>@drawable/fuel</item>
+        <item>@drawable/rest</item>
+
+    </array>
+
+    <array name="icons_mecano">
+        <item>@drawable/dashboard</item>
+        <item>@drawable/tasks</item>
+        <item>@drawable/report</item>
+        <item>@drawable/comm</item>
+        <item>@drawable/prof</item>
+    </array>
+    <array name="colors">
+        <item>@android:color/holo_blue_light</item>
+        <item>@android:color/holo_green_dark</item>
+        <item>@android:color/holo_red_light</item>
+        <item>@android:color/holo_purple</item>
+        <item>@android:color/holo_orange_light</item>
+    </array>
+</resources>

@@ -24,11 +24,16 @@ public class Avatar_selection extends AppCompatActivity {
         confirmButton = findViewById(R.id.confirmButton);
 
         // Initialize avatarList with your avatar resource IDs
-        avatarList = new int[] {
+        avatarList = new int[]{
                 R.drawable.astronaut,
                 R.drawable.avatar,
                 R.drawable.chicken,
-
+                R.drawable.man,
+                R.drawable.gamer,
+                R.drawable.woman,
+                R.drawable.cat,
+                R.drawable.office,
+                R.drawable.user
         };
 
         AvatarAdapter adapter = new AvatarAdapter(this, avatarList);
@@ -51,14 +56,11 @@ public class Avatar_selection extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Handle confirmation button click
-                // You can directly pass the selected avatar's resource ID to the profile page
-                // For this example, we'll pass it to the profile page using an intent
+                // If needed, add selected avatar data to the intent before setting the result
                 Intent resultIntent = new Intent();
-                // Add selected avatar data to the intent if needed
                 setResult(RESULT_OK, resultIntent);
                 finish(); // Finish the activity and return to the previous activity
             }
         });
     }
-
 }

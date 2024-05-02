@@ -1,63 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
     tools:context=".mecano.Rapport_activity">
 
+    <EditText
+        android:id="@+id/titleEditText"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:background="@drawable/edittext_bg"
+        android:hint="Matricule"
+        android:paddingLeft="10dp"
+        android:textColor="@color/black" />
 
     <EditText
-        android:id="@+id/reportEditText"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:id="@+id/contentEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:gravity="start"
-        android:hint="Write your report here..."
+        android:background="@drawable/edittext_bg"
+        android:hint="Ecrire votre rapport"
         android:inputType="textMultiLine"
-        android:minLines="6"
-        android:padding="10dp"
-        android:scrollbars="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/saveButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:minLines="5"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textColor="@color/black" />
 
     <Button
         android:id="@+id/saveButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Save"
-        android:onClick="saveReport"
-        app:layout_constraintBottom_toTopOf="@+id/discardButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"/>
-
-    <Button
-        android:id="@+id/discardButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Discard"
-        android:onClick="discardChanges"
-        app:layout_constraintBottom_toTopOf="@+id/dateTimeTextView"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"/>
+        android:text="Save Notes"
+        android:layout_marginTop="16dp"/>
 
     <TextView
-        android:id="@+id/dateTimeTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Date: "
-        android:textStyle="italic"
-        android:textColor="@android:color/darker_gray"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginBottom="16dp"
-        android:layout_marginStart="16dp"/>
+        android:layout_width="match_parent"
+        android:layout_height="18dp"
+        android:text="Notes:"
+        android:layout_marginTop="16dp"
+        android:textStyle="bold"
+        android:id="@+id/notesTextView"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <ScrollView
+        android:id="@+id/notesScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/notesContainer"
+            android:orientation="vertical"/>
+
+    </ScrollView>
+
+</LinearLayout>

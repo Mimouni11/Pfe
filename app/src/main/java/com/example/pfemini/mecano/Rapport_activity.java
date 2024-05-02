@@ -1,6 +1,8 @@
 package com.example.pfemini.mecano;
 
 import android.Manifest;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
@@ -8,9 +10,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -22,11 +27,15 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Rapport_activity extends AppCompatActivity {
+    private static final String PREFS_NAME = "NotePrefs";
+    private static final String KEY_NOTE_COUNT = "NoteCount";
+    private LinearLayout notesContainer;
+    private List<com.example.test2.Note> noteList;
 
-    private static final String TAG = "RapportActivity";
-    private static final int REQUEST_CODE_WRITE_EXTERNAL_STORAGE = 1;
 
     EditText reportEditText;
     Button saveButton;
@@ -36,78 +45,127 @@ public class Rapport_activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rapport);
 
-        reportEditText = findViewById(R.id.reportEditText);
-        saveButton = findViewById(R.id.saveButton);
+        notesContainer = findViewById(R.id.notesContainer);
+        Button saveButton = findViewById(R.id.saveButton);
+
+        noteList = new ArrayList<>();
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkStoragePermission()) {
-                    saveReportAsPDF();
-                } else {
-                    Log.d(TAG, "Storage permission not granted. Requesting permission...");
-                    requestStoragePermission();
-                }
+                saveNote();
             }
         });
+
+        loadNotesFromPreferences();
+        displayNotes();
     }
 
-    private boolean checkStoragePermission() {
-        return ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                == PackageManager.PERMISSION_GRANTED;
-    }
-
-    private void requestStoragePermission() {
-        ActivityCompat.requestPermissions(this,
-                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                REQUEST_CODE_WRITE_EXTERNAL_STORAGE);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_CODE_WRITE_EXTERNAL_STORAGE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Log.d(TAG, "Storage permission granted. Saving report as PDF...");
-                saveReportAsPDF();
-            } else {
-                Log.d(TAG, "Storage permission denied by the user.");
-                Toast.makeText(this, "Storage permission denied", Toast.LENGTH_SHORT).show();
-            }
+    private void displayNotes() {
+        for (com.example.test2.Note note : noteList) {
+            createNoteView(note);
         }
     }
 
-    private void saveReportAsPDF() {
-        String reportContent = reportEditText.getText().toString().trim();
+    private void loadNotesFromPreferences() {
+        SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        int noteCount = sharedPreferences.getInt(KEY_NOTE_COUNT, 0);
 
-        if (!reportContent.isEmpty()) {
-            try {
-                // Create document
-                Document document = new Document();
-                String filePath = new File(getExternalFilesDir(null), "report.pdf").getAbsolutePath();
-                Log.d(TAG, "PDF will be saved to: " + filePath);
+        for (int i = 0; i < noteCount; i++) {
+            String title = sharedPreferences.getString("note_title_" + i, "");
+            String content = sharedPreferences.getString("note_content_" + i, "");
 
-                // Create instance of PDFWriter class
-                PdfWriter.getInstance(document, new FileOutputStream(filePath));
+            com.example.test2.Note note = new com.example.test2.Note();
+            note.setMatricule(title);
+            note.setContent(content);
 
-                // Open the document
-                document.open();
-
-                // Add content to the document
-                document.add(new Paragraph(reportContent));
-
-                // Close document
-                document.close();
-
-                // Show success message
-                Toast.makeText(this, "Report saved as PDF", Toast.LENGTH_SHORT).show();
-            } catch (Exception e) {
-                e.printStackTrace();
-                Log.e(TAG, "Failed to save report as PDF", e);
-                Toast.makeText(this, "Failed to save report as PDF", Toast.LENGTH_SHORT).show();
-            }
-        } else {
-            Toast.makeText(this, "Please write your report before saving", Toast.LENGTH_SHORT).show();
+            noteList.add(note);
         }
+    }
+
+    private void saveNote() {
+        EditText titleEditText = findViewById(R.id.titleEditText);
+        EditText contentEditText = findViewById(R.id.contentEditText);
+
+        String title = titleEditText.getText().toString();
+        String content = contentEditText.getText().toString();
+
+        if (!title.isEmpty() && !content.isEmpty()) {
+            com.example.test2.Note note = new com.example.test2.Note();
+            note.setMatricule(title);
+            note.setContent(content);
+
+            noteList.add(note);
+            saveNotesToPreferences();
+
+            createNoteView(note);
+            clearInputFields();
+        }
+    }
+
+    private void clearInputFields() {
+        EditText titleEditText = findViewById(R.id.titleEditText);
+        EditText contentEditText = findViewById(R.id.contentEditText);
+
+        titleEditText.getText().clear();
+        contentEditText.getText().clear();
+    }
+
+    private void createNoteView(final com.example.test2.Note note) {
+        View noteView = getLayoutInflater().inflate(R.layout.note_item,null);
+        TextView titleTextView = noteView.findViewById(R.id.titleTextView);
+        TextView contentTextView = noteView.findViewById(R.id.contentTextView);
+
+        titleTextView.setText(note.getMatricule());
+        contentTextView.setText(note.getContent());
+
+        noteView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                showDeleteDialog(note);
+                return true;
+            }
+        });
+
+        notesContainer.addView(noteView);
+    }
+
+    private void showDeleteDialog(final com.example.test2.Note note) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Delete this note.");
+        builder.setMessage("Are you sure you want to delete this note?");
+        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                deleteNoteAndRefresh(note);
+            }
+        });
+        builder.setNegativeButton("Cancel", null);
+        builder.show();
+    }
+
+    private void deleteNoteAndRefresh(com.example.test2.Note note) {
+        noteList.remove(note);
+        saveNotesToPreferences();
+        refreshNoteViews();
+    }
+
+    private void refreshNoteViews() {
+        notesContainer.removeAllViews();
+        displayNotes();
+    }
+
+    private void saveNotesToPreferences() {
+        SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putInt(KEY_NOTE_COUNT, noteList.size());
+        for (int i = 0; i < noteList.size(); i ++) {
+            com.example.test2.Note note = noteList.get(i);
+            editor.putString("note_title_" + i, note.getMatricule());
+            editor.putString("note_content_" + i, note.getContent());
+        }
+        editor.apply();
     }
 }

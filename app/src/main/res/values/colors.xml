@@ -4,4 +4,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="colorPrimaryDark">#FF5722</color>
     <color name="colorPrimary">#33fffc </color>
+    <color name="shell">#FFF5EE</color>
 </resources>

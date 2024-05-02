@@ -2,24 +2,32 @@ package com.example.pfemini;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.DownloadManager;
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.pfemini.Adapters.DriverTaskAdapter;
+import com.example.pfemini.Models.DriverTask;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class scan extends AppCompatActivity {
     Button scaner;
-    TextView text;
+    RecyclerView recyclerViewTasks;
+    DriverTaskAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +38,12 @@ public class scan extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         scaner = findViewById(R.id.scanner);
-        text = findViewById(R.id.text);
+        recyclerViewTasks = findViewById(R.id.recyclerViewTasks);
+
+        // Set up RecyclerView
+        recyclerViewTasks.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new DriverTaskAdapter(new ArrayList<>(), getSharedPreferences(profile.PREFS_NAME, MODE_PRIVATE));
+        recyclerViewTasks.setAdapter(adapter);
 
         scaner.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -40,49 +53,56 @@ public class scan extends AppCompatActivity {
                 intentIntegrator.setPrompt("scanner");
                 intentIntegrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
                 intentIntegrator.initiateScan();
-
             }
         });
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-
+        super.onActivityResult(requestCode, resultCode, data);
         IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (intentResult != null) {
             String contents = intentResult.getContents();
             if (contents != null) {
-                // Check if the scanned content is a URL pointing to a PDF
-                if (contents.endsWith(".pdf")) {
-                    // Initiate PDF download
-                    downloadPDF(contents);
+                // Send the scanned content to the server
+                sendScannedContentToServer(contents);
+            }
+        }
+    }
+
+    private void sendScannedContentToServer(String content) {
+        Apiservices apiService = RetrofitClient.getClient().create(Apiservices.class);
+        Call<List<DriverTask>> call = apiService.getTasksForScannedContent(content);
+        call.enqueue(new Callback<List<DriverTask>>() {
+            @Override
+            public void onResponse(Call<List<DriverTask>> call, Response<List<DriverTask>> response) {
+                if (response.isSuccessful()) {
+                    List<DriverTask> tasks = response.body();
+                    if (tasks != null && !tasks.isEmpty()) {
+                        // Display the tasks
+                        displayTasks(tasks);
+                    } else {
+                        // No tasks found for the scanned content
+                        Toast.makeText(scan.this, "No tasks found for the scanned content", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
-                    // Display scanned text
-                    text.setText(contents);
+                    // Handle unsuccessful response
+                    Toast.makeText(scan.this, "Failed to get tasks from the server", Toast.LENGTH_SHORT).show();
                 }
             }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
-        }
 
-
+            @Override
+            public void onFailure(Call<List<DriverTask>> call, Throwable t) {
+                // Handle failure
+                Toast.makeText(scan.this, "Failed to communicate with the server", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
-    private void downloadPDF(String url) {
-        // Create a DownloadManager.Request with the PDF URL
-        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
-        request.setTitle("PDF Download"); // Set the title of the download notification
-        request.setDescription("Downloading PDF"); // Set the description of the download notification
-        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "downloaded_pdf.pdf");
-
-        // Get the DownloadManager service and enqueue the request
-        DownloadManager downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-        if (downloadManager != null) {
-            downloadManager.enqueue(request);
-        }
+    private void displayTasks(List<DriverTask> tasks) {
+        // Add tasks to the RecyclerView adapter
+        adapter.setTaskList(tasks);
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

@@ -50,6 +50,7 @@ public class Qrscan extends AppCompatActivity implements SurfaceHolder.Callback 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.AppTheme2);
         setContentView(R.layout.activity_qrscan);
         surfaceView = findViewById(R.id.surfaceView);
         surfaceHolder = surfaceView.getHolder();

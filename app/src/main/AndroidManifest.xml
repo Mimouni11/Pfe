@@ -21,6 +21,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".communication"
+            android:exported="false" />
+        <activity
             android:name=".mecano.Tasks_activity"
             android:exported="false" />
         <activity
@@ -37,7 +40,8 @@
             android:exported="false" />
         <activity
             android:name=".Plannification"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/AppTheme2"/>
         <activity
             android:name=".Gere_utlisateur"
             android:exported="false" />
@@ -52,23 +56,23 @@
             android:exported="false" />
         <activity
             android:name=".Passwordmodif"
-            android:exported="false" />
-        <activity
-            android:name=".ui.login.passwordModif"
             android:exported="false"
-            android:label="@string/title_activity_password_modif" />
+            android:theme="@style/AppTheme2"/>
+
         <activity
             android:name=".Avatar_selection"
             android:exported="false" />
         <activity
             android:name=".scan"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/AppTheme2"/>
         <activity
             android:name=".Qrscan"
             android:exported="false" />
         <activity
             android:name=".profile"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/AppTheme2"/>
         <activity
             android:name=".login"
             android:exported="false" />
@@ -84,6 +88,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>
