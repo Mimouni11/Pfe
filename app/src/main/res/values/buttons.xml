@@ -21,6 +21,16 @@
         <item>@drawable/comm</item>
         <item>@drawable/prof</item>
     </array>
+
+    <array name="icons_chef">
+        <item>@drawable/home</item>
+        <item>@drawable/maps</item>
+        <item>@drawable/comm</item>
+        <item>@drawable/prof</item>
+
+    </array>
+
+
     <array name="colors">
         <item>@android:color/holo_blue_light</item>
         <item>@android:color/holo_green_dark</item>

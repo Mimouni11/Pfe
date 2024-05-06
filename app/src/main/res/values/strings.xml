@@ -1,5 +1,5 @@
-<resources>
-    <string name="app_name">pfemini</string>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">Sawe9ji</string>
     <string name="title_activity_password_modif">passwordModif</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
@@ -12,5 +12,5 @@
     <string name="bold">Bold</string>
     <string name="italic">Italic</string>
     <string name="title_tasks">Your tasks for today - %s</string>
-
+    <string name="mapbox_access_token" translatable="false" tools:ignore="UnusedResources">sk.eyJ1IjoibWltb3VuaTExIiwiYSI6ImNsdnFsbmp0YTBmYWEyaW5ucDdqYWY3NG8ifQ.Te3egroveb7GY6lzf6KBKA</string>
 </resources>

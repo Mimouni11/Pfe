@@ -4,6 +4,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".chefActivity">
+    tools:context=".Chef.chefActivity">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <com.ramotion.circlemenu.CircleMenuView
+        android:id="@+id/menu"
+        android:layout_width="391dp"
+        android:layout_height="243dp"
+        app:button_colors="@array/colors"
+        app:button_icons="@array/icons_chef"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

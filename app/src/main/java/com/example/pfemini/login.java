@@ -5,34 +5,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.pfemini.Chef.chefActivity;
 import com.example.pfemini.mecano.mecano_main;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
-
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class login extends AppCompatActivity {
     private EditText editTextUsername, editTextPassword;
@@ -85,8 +69,8 @@ public class login extends AppCompatActivity {
                                 } else if ("driver".equals(role)) {
                                     Intent intent = new Intent(login.this, MainActivity.class);
                                     startActivity(intent);
-                                } else if ("admin".equals(role)) {
-                                    Intent intent = new Intent(login.this, Admin_activity.class);
+                                } else if ("chef".equals(role)) {
+                                    Intent intent = new Intent(login.this, chefActivity.class);
                                     startActivity(intent);
                                 } else {
                                     // Handle unknown role

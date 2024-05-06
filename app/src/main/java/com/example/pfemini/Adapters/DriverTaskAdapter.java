@@ -21,7 +21,7 @@ public class DriverTaskAdapter extends RecyclerView.Adapter<DriverTaskAdapter.Ta
     private List<DriverTask> taskList;
     private SharedPreferences prefs;
 
-    public DriverTaskAdapter(List<DriverTask> taskList, SharedPreferences prefs) {
+    public DriverTaskAdapter(List<DriverTask> taskList, SharedPreferences preferences) {
         this.taskList = taskList;
         this.prefs = prefs;
     }
@@ -61,14 +61,13 @@ public class DriverTaskAdapter extends RecyclerView.Adapter<DriverTaskAdapter.Ta
             taskTextView = itemView.findViewById(R.id.taskTextView);
             matriculeTextView = itemView.findViewById(R.id.matriculeTextView);
 
-            // Set listener for checkbox state changes
             checkboxTask.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
                         DriverTask task = taskList.get(position);
-                        // Perform any action here
+                        task.setSelected(isChecked);
                     }
                 }
             });
@@ -77,7 +76,7 @@ public class DriverTaskAdapter extends RecyclerView.Adapter<DriverTaskAdapter.Ta
         public void bind(DriverTask task) {
             taskTextView.setText(task.getTask());
             matriculeTextView.setText(task.getMatricule());
-            // Set checkbox state here if needed
+            checkboxTask.setChecked(task.isSelected()); // Set checkbox state
         }
     }
 }

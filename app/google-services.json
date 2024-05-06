@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "262930992846",
+    "project_id": "sawe9ji-2c444",
+    "storage_bucket": "sawe9ji-2c444.appspot.com",
+    "firebase_url": "https://sawe9ji-2c444-default-rtdb.europe-west1.firebasedatabase.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:262930992846:android:e8fe14b2e2f92fa8daca9f",
+        "android_client_info": {
+          "package_name": "com.example.pfemini"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbtgo2CYeLyr3nzDe7TKAnMQ0g3PoOOLo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

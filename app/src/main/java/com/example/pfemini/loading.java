@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.pfemini.Chef.chefActivity;
 import com.example.pfemini.mecano.mecano_main;
 
 public class loading extends AppCompatActivity {
@@ -53,6 +54,8 @@ public class loading extends AppCompatActivity {
                     } else if ("mecano".equals(role)) {
                         // Redirect other users to MainActivity
                         intent = new Intent(loading.this, mecano_main.class);
+                    }else if ("chef".equals(role)){
+                        intent=new Intent(loading.this, chefActivity.class);
                     }
                 }
 
