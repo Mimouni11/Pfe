@@ -6,34 +6,47 @@
     android:padding="16dp"
     tools:context=".MainActivity">
 
+    <org.osmdroid.views.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/editTextContainer" />
+
     <LinearLayout
         android:id="@+id/editTextContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:orientation="vertical">
 
-        <!-- Default EditText -->
         <EditText
             android:id="@+id/defaultEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Stop" />
+            android:hint="Stop"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/addButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Stop"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="@color/colorPrimary"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center_horizontal"/>
 
     </LinearLayout>
-
-    <Button
-        android:id="@+id/addButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/editTextContainer"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:text="Add Stop" />
 
     <Button
         android:id="@+id/doneButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Done" />
+        android:text="Done"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="@color/colorPrimary"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"/>
 
 </RelativeLayout>

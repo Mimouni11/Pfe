@@ -1,19 +1,30 @@
 package com.example.pfemini;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Plannification extends AppCompatActivity {
 
     private LinearLayout editTextContainer;
     private Button addButton;
     private Button doneButton;
+    private LocationListener locationListener;
+    private LocationManager locationManager; // Declare locationManager here
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,26 +46,29 @@ public class Plannification extends AppCompatActivity {
             }
         });
 
-
-
     }
+
+
 
     private void sendDataToNextActivity() {
         Intent intent = new Intent(Plannification.this, stops.class);
 
+        List<String> addresses = new ArrayList<>();
         int childCount = editTextContainer.getChildCount();
         for (int i = 0; i < childCount; i++) {
             View view = editTextContainer.getChildAt(i);
             if (view instanceof EditText) {
                 EditText editText = (EditText) view;
                 String editTextValue = editText.getText().toString();
-                intent.putExtra("editTextValue" + i, editTextValue);
+                addresses.add(editTextValue);
             }
         }
 
-        intent.putExtra("childCount", childCount); // Pass the total number of EditText fields
+        intent.putStringArrayListExtra("addresses", (ArrayList<String>) addresses); // Pass the list of addresses
         startActivity(intent);
     }
+
+
 
 
 
@@ -69,4 +83,5 @@ public class Plannification extends AppCompatActivity {
         newEditText.setHint("Stop added");
         editTextContainer.addView(newEditText);
     }
+
 }
