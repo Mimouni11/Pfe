@@ -77,7 +77,7 @@ public class stops extends AppCompatActivity {
                 String editTextValue = intent.getStringExtra("editTextValue" + i);
                 displayText.append("EditText Value ").append(i + 1).append(": ").append(editTextValue).append("\n");
             }
-// Display the addresses
+            // Display the addresses
             displayText.append("Addresses:\n");
             for (String address : addresses) {
                 displayText.append(address).append("\n");

@@ -7,10 +7,9 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
-    <!-- Include only if your app benefits from precise location access. -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- Include only if your app benefits from precise location access. -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -23,6 +22,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".restActivity"
+            android:exported="false" />
         <activity
             android:name=".communication"
             android:exported="false" />
@@ -57,17 +59,13 @@
         <activity
             android:name=".Chef.chefActivity"
             android:exported="false" />
-
-        <activity android:name=".Chef.LocationActivity"
-            android:exported="false"/>
-            <!-- Intent filters, if any -->
-
-
+        <activity
+            android:name=".Chef.LocationActivity"
+            android:exported="false" /> <!-- Intent filters, if any -->
         <activity
             android:name=".Passwordmodif"
             android:exported="false"
             android:theme="@style/AppTheme2" />
-
         <activity
             android:name=".Avatar_selection"
             android:exported="false" />

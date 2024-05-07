@@ -20,15 +20,27 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.example.pfemini.Apiservices;
 import com.example.pfemini.R;
+import com.example.pfemini.RetrofitClient;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.OkHttpClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Rapport_activity extends AppCompatActivity {
     private static final String PREFS_NAME = "NotePrefs";
@@ -36,8 +48,8 @@ public class Rapport_activity extends AppCompatActivity {
     private LinearLayout notesContainer;
     private List<com.example.test2.Note> noteList;
 
-
-    EditText reportEditText;
+    private EditText titleEditText;
+    private EditText contentEditText;
     Button saveButton;
 
     @Override
@@ -48,18 +60,81 @@ public class Rapport_activity extends AppCompatActivity {
         notesContainer = findViewById(R.id.notesContainer);
         Button saveButton = findViewById(R.id.saveButton);
 
+        titleEditText = findViewById(R.id.titleEditText);
+        contentEditText = findViewById(R.id.contentEditText);
         noteList = new ArrayList<>();
+
+
+
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Check if title and content are not empty
+                String title = titleEditText.getText().toString().trim();
+                String content = contentEditText.getText().toString().trim();
+                if (title.isEmpty() || content.isEmpty()) {
+                    Toast.makeText(Rapport_activity.this, "Title and content cannot be empty", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // If title and content are not empty, then save note and report
+                saveReport();
                 saveNote();
             }
         });
 
+
         loadNotesFromPreferences();
         displayNotes();
     }
+
+
+
+    private void saveReport() {
+        String title = titleEditText.getText().toString().trim();
+        String content = contentEditText.getText().toString().trim();
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        String username = sharedPreferences.getString("username", "");
+
+        // Check if title and content are not empty
+        if (title.isEmpty() || content.isEmpty()) {
+            Toast.makeText(Rapport_activity.this, "Title and content cannot be empty", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Create Retrofit instance
+
+
+        // Create ApiService instance
+        Apiservices apiService = RetrofitClient.getClient().create(Apiservices.class);
+        Call<Void> call = apiService.saveReport(title, content, username);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(Rapport_activity.this, "Report saved successfully", Toast.LENGTH_SHORT).show();
+                } else {
+                    try {
+                        Toast.makeText(Rapport_activity.this, response.errorBody().string(), Toast.LENGTH_SHORT).show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(Rapport_activity.this, "Failed to save report: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+
+
+
+
 
     private void displayNotes() {
         for (com.example.test2.Note note : noteList) {

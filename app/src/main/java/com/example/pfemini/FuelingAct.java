@@ -227,6 +227,8 @@ public class FuelingAct extends AppCompatActivity {
         marker.setTitle(gasStationName);
         marker.setIcon(icon);
         mapView.getOverlays().add(marker);
+
+
     }
 
 

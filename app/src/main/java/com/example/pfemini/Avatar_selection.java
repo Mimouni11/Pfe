@@ -33,7 +33,8 @@ public class Avatar_selection extends AppCompatActivity {
                 R.drawable.woman,
                 R.drawable.cat,
                 R.drawable.office,
-                R.drawable.user
+                R.drawable.user,
+                R.drawable.daisy2
         };
 
         AvatarAdapter adapter = new AvatarAdapter(this, avatarList);

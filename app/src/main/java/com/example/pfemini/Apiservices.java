@@ -54,6 +54,19 @@ public interface Apiservices {
             @Field("status") String status
     );
 
+    @FormUrlEncoded
+    @POST("/report")
+    Call<Void> saveReport(
+            @Field("title") String title,
+            @Field("content") String content,
+            @Field("username") String username
+    );
 
+    @FormUrlEncoded
+    @POST("/send_notification")
+    Call<Void> sendNotification(
+            @Field("recipient") String recipient,
+            @Field("message") String message
+    );
 
 }
