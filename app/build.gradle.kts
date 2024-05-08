@@ -60,6 +60,7 @@ dependencies {
     implementation ("com.github.denzcoskun:ImageSlideshow:0.1.2")
     implementation("com.mapbox.maps:android:11.3.1")
     implementation("com.google.firebase:firebase-database:21.0.0")
+    implementation("com.google.firebase:firebase-messaging:24.0.0")
     testImplementation("junit:junit:4.13.2")
 
 

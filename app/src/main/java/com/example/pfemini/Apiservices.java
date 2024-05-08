@@ -63,10 +63,15 @@ public interface Apiservices {
     );
 
     @FormUrlEncoded
+    @POST("/register_token")
+    Call<Void> saveChefDeviceToken(
+            @Field("username") String username,
+            @Field("deviceToken") String deviceToken
+    );
+    @FormUrlEncoded
     @POST("/send_notification")
     Call<Void> sendNotification(
-            @Field("recipient") String recipient,
+            @Field("username") String username,
             @Field("message") String message
     );
-
 }

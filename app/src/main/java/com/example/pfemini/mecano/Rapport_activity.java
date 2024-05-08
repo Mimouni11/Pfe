@@ -81,6 +81,7 @@ public class Rapport_activity extends AppCompatActivity {
                 // If title and content are not empty, then save note and report
                 saveReport();
                 saveNote();
+                sendNotification(content);
             }
         });
 
@@ -157,6 +158,39 @@ public class Rapport_activity extends AppCompatActivity {
             noteList.add(note);
         }
     }
+
+
+    private void sendNotification(String message) {
+        // Hardcode the chef's username for now
+        String chefUsername = "kaka";
+
+        // Call the endpoint to send notification
+        Apiservices apiService = RetrofitClient.getClient().create(Apiservices.class);
+        Call<Void> call = apiService.sendNotification(chefUsername,message);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    // Notification sent successfully
+                    Toast.makeText(Rapport_activity.this, "Notification sent successfully", Toast.LENGTH_SHORT).show();
+                } else {
+                    // Failed to send notification
+                    Toast.makeText(Rapport_activity.this, "Failed to send notification", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                // Handle failure
+                Toast.makeText(Rapport_activity.this, "Failed to send notification: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+
+
+
 
     private void saveNote() {
         EditText titleEditText = findViewById(R.id.titleEditText);
