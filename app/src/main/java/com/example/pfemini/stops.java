@@ -1,6 +1,5 @@
 package com.example.pfemini;
 
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -8,31 +7,38 @@ import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ramotion.circlemenu.CircleMenuView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
-import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
-import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
+import org.osmdroid.views.overlay.Polyline;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 public class stops extends AppCompatActivity {
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
-    private FloatingActionButton fabCenterLocation;
-
-    private MyLocationNewOverlay mLocationOverlay;
-   private MapView mapView;
+    private MapView mapView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,139 +52,136 @@ public class stops extends AppCompatActivity {
         mapView.setBuiltInZoomControls(true);
         mapView.setMultiTouchControls(true);
 
-
         // Retrieve data from Intent extras
         Intent intent = getIntent();
         if (intent != null) {
-            int childCount = intent.getIntExtra("childCount", 0); // Retrieve the total number of EditText fields
             List<String> addresses = intent.getStringArrayListExtra("addresses");
-            if (addresses != null) {
-                for (String address : addresses) {
-                    // Convert EditText value to location GeoPoint
-                    GeoPoint location = null;
-                    try {
-                        location = GeoCoderHelper.getLocationFromAddress(this, address);
-                    } catch (IllegalArgumentException e) {
-                        e.printStackTrace();
-                    }
 
+            if (addresses != null && addresses.size() >= 2) {
+                // Add markers for each address
+                for (String address : addresses) {
+                    GeoPoint location = GeoCoderHelper.getLocationFromAddress(this, address);
                     if (location != null) {
-                        // Add marker for the location on the map
                         addMarker(location, address);
                     } else {
                         Toast.makeText(this, "Failed to find location for: " + address, Toast.LENGTH_SHORT).show();
                     }
                 }
-            }
 
-            // Display the received data in a TextView
-            StringBuilder displayText = new StringBuilder("Data from previous activity:\n");
-            for (int i = 0; i < childCount; i++) {
-                String editTextValue = intent.getStringExtra("editTextValue" + i);
-                displayText.append("EditText Value ").append(i + 1).append(": ").append(editTextValue).append("\n");
-            }
-            // Display the addresses
-            displayText.append("Addresses:\n");
-            for (String address : addresses) {
-                displayText.append(address).append("\n");
-            }
-            TextView textView = findViewById(R.id.textView);
-            textView.setText(displayText.toString());
-
-
-
-            centerOnUserLocation();
-
-
-            // Retrieve latitude and longitude from intent extras
-
-
-
-
-            // Create a GeoPoint for the user's location
-
-            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
-                    != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this,
-                        new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-                        LOCATION_PERMISSION_REQUEST_CODE);
+                // Calculate route between addresses
+                calculateRouteBetweenAddresses(addresses);
             } else {
-                // Permission already granted, enable location
-                enableLocation();
-                centerOnUserLocation();
+                Toast.makeText(this, "At least two addresses are required to calculate the route", Toast.LENGTH_SHORT).show();
             }
-
-
-            fabCenterLocation = findViewById(R.id.fabCenterLocation);
-            fabCenterLocation.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    centerOnUserLocation();
-
-                }
-            });
-
+        } else {
+            Toast.makeText(this, "No addresses provided", Toast.LENGTH_SHORT).show();
         }
-
-
-
-
-
-
-
-
-
-        // Display icons
-
-        final CircleMenuView menu = findViewById(R.id.menu);
-        menu.setEventListener(new CircleMenuView.EventListener() {
-            @Override
-            public void onButtonClickAnimationEnd(@NonNull CircleMenuView view, int index) {
-                switch (index) {
-                    case 0:
-                        // Button 0 clicked, navigate to ActivityA
-                        startActivity(new Intent(stops.this, FuelingAct.class));
-                        break;
-                    case 1:
-                        // Button 1 clicked, navigate to ActivityB
-                        // Add your navigation code here
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }); // Add this closing parenthesis
     }
-
 
     private void addMarker(GeoPoint location, String title) {
         Marker marker = new Marker(mapView);
         marker.setPosition(location);
         marker.setTitle(title);
         mapView.getOverlays().add(marker);
-        mapView.invalidate(); // Refresh the map view
     }
 
+    private void calculateRouteBetweenAddresses(List<String> addresses) {
+        for (int i = 0; i < addresses.size() - 1; i++) {
+            String startAddress = addresses.get(i);
+            String endAddress = addresses.get(i + 1);
 
-    private void centerOnUserLocation() {
-        if (mLocationOverlay != null && mLocationOverlay.getMyLocation() != null) {
-            GeoPoint myLocation = mLocationOverlay.getMyLocation();
-            mapView.getController().animateTo(myLocation);
-            mapView.getController().setZoom(18); // Example zoom level, adjust as needed
-        } else {
-            Toast.makeText(this, "Unable to get current location", Toast.LENGTH_SHORT).show();
+            GeoPoint startLocation = GeoCoderHelper.getLocationFromAddress(this, startAddress);
+            GeoPoint endLocation = GeoCoderHelper.getLocationFromAddress(this, endAddress);
+
+            if (startLocation != null && endLocation != null) {
+                calculateRoute(startLocation, endLocation);
+            } else {
+                Toast.makeText(this, "Failed to calculate route between " + startAddress + " and " + endAddress, Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
+    private void calculateRoute(GeoPoint startLocation, GeoPoint endLocation) {
+        String url = "https://router.project-osrm.org/route/v1/driving/" +
+                startLocation.getLongitude() + "," + startLocation.getLatitude() + ";" +
+                endLocation.getLongitude() + "," + endLocation.getLatitude() +
+                "?geometries=geojson";
 
-    private void enableLocation() {
-        // Create and enable My Location overlay
-        mLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(this), mapView);
-        mLocationOverlay.enableMyLocation();
-        mapView.getOverlays().add(mLocationOverlay);
+        new FetchRouteTask().execute(url);
     }
 
+    private class FetchRouteTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... urls) {
+            if (urls.length == 0) return null;
 
+            String routeData = null;
+            HttpURLConnection urlConnection = null;
+            try {
+                URL url = new URL(urls[0]);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                InputStream inputStream = urlConnection.getInputStream();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+                StringBuilder builder = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    builder.append(line);
+                }
+                routeData = builder.toString();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (urlConnection != null) {
+                    urlConnection.disconnect();
+                }
+            }
+            return routeData;
+        }
 
+        @Override
+        protected void onPostExecute(String routeData) {
+            super.onPostExecute(routeData);
+            if (routeData != null) {
+                List<GeoPoint> routePoints = parseRouteData(routeData);
 
+                if (routePoints != null && !routePoints.isEmpty()) {
+                    Polyline routePolyline = new Polyline();
+                    routePolyline.setPoints(routePoints);
+                    routePolyline.setColor(Color.BLUE);
+                    routePolyline.setWidth(5);
+
+                    mapView.getOverlayManager().add(routePolyline);
+                    mapView.invalidate();
+                } else {
+                    Toast.makeText(stops.this, "Failed to parse route data", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(stops.this, "Failed to fetch route data", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        private List<GeoPoint> parseRouteData(String routeData) {
+            List<GeoPoint> routePoints = new ArrayList<>();
+            try {
+                JSONObject jsonRoute = new JSONObject(routeData);
+                JSONArray jsonRoutes = jsonRoute.getJSONArray("routes");
+                if (jsonRoutes.length() > 0) {
+                    JSONObject jsonRouteObject = jsonRoutes.getJSONObject(0);
+                    JSONObject jsonGeometry = jsonRouteObject.getJSONObject("geometry");
+                    JSONArray jsonCoordinates = jsonGeometry.getJSONArray("coordinates");
+
+                    for (int i = 0; i < jsonCoordinates.length(); i++) {
+                        JSONArray jsonCoordinate = jsonCoordinates.getJSONArray(i);
+                        double lon = jsonCoordinate.getDouble(0);
+                        double lat = jsonCoordinate.getDouble(1);
+                        GeoPoint geoPoint = new GeoPoint(lat, lon);
+                        routePoints.add(geoPoint);
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return routePoints;
+        }
+    }
 }

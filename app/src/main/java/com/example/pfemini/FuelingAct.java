@@ -90,7 +90,7 @@ public class FuelingAct extends AppCompatActivity {
         mapView.setMultiTouchControls(true);
 
         // Set the center of the map (e.g., Paris, France)
-        GeoPoint startPoint = new GeoPoint(48.8583, 2.2944);
+        GeoPoint startPoint = new GeoPoint(31.8583, 10.2944);
         mapView.getController().setCenter(startPoint);
         mapView.getController().setZoom(12); // Set initial zoom level
 
