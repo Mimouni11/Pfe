@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ramotion.circlemenu.CircleMenuView;
+import com.google.maps.android.PolyUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -76,6 +77,30 @@ public class stops extends AppCompatActivity {
         } else {
             Toast.makeText(this, "No addresses provided", Toast.LENGTH_SHORT).show();
         }
+
+
+        final CircleMenuView menu = findViewById(R.id.menu);
+        menu.setEventListener(new CircleMenuView.EventListener() {
+            @Override
+            public void onButtonClickAnimationEnd(@NonNull CircleMenuView view, int index) {
+                switch (index) {
+                    case 0:
+                        // Button 0 clicked, navigate to ActivityA
+                        startActivity(new Intent(stops.this, FuelingAct.class));
+                        break;
+                    case 1:
+                        // Button 1 clicked, navigate to ActivityB
+                        startActivity(new Intent(stops.this, restActivity.class));
+                        break;
+                    // Add more cases for additional buttons if needed
+
+                    default:
+                        break;
+                }
+            }
+        });
+
+
     }
 
     private void addMarker(GeoPoint location, String title) {
@@ -86,7 +111,14 @@ public class stops extends AppCompatActivity {
     }
 
     private void calculateRouteBetweenAddresses(List<String> addresses) {
-        for (int i = 0; i < addresses.size() - 1; i++) {
+        int size = addresses.size();
+        if (size < 2) {
+            Toast.makeText(this, "At least two addresses are required to calculate the route", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Calculate route between consecutive pairs of addresses
+        for (int i = 0; i < size - 1; i++) {
             String startAddress = addresses.get(i);
             String endAddress = addresses.get(i + 1);
 
@@ -101,14 +133,19 @@ public class stops extends AppCompatActivity {
         }
     }
 
-    private void calculateRoute(GeoPoint startLocation, GeoPoint endLocation) {
-        String url = "https://router.project-osrm.org/route/v1/driving/" +
-                startLocation.getLongitude() + "," + startLocation.getLatitude() + ";" +
-                endLocation.getLongitude() + "," + endLocation.getLatitude() +
-                "?geometries=geojson";
 
+    private void calculateRoute(GeoPoint startLocation, GeoPoint endLocation) {
+        // Construct the URL for the OpenRouteService API
+        String baseUrl = "https://api.openrouteservice.org/v2/directions/driving-car";
+        String apiKey = "5b3ce3597851110001cf6248c9ca2443f9b74caa9dd396ead2a6de27"; // Replace "YOUR_API_KEY" with your actual API key
+        String url = baseUrl + "?api_key=" + apiKey +
+                "&start=" + startLocation.getLongitude() + "," + startLocation.getLatitude() +
+                "&end=" + endLocation.getLongitude() + "," + endLocation.getLatitude();
+
+        // Execute AsyncTask to fetch route data
         new FetchRouteTask().execute(url);
     }
+
 
     private class FetchRouteTask extends AsyncTask<String, Void, String> {
         @Override
@@ -120,6 +157,7 @@ public class stops extends AppCompatActivity {
             try {
                 URL url = new URL(urls[0]);
                 urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestProperty("Authorization", "5b3ce3597851110001cf6248c9ca2443f9b74caa9dd396ead2a6de27"); // Set your API key
                 InputStream inputStream = urlConnection.getInputStream();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
                 StringBuilder builder = new StringBuilder();
@@ -147,8 +185,8 @@ public class stops extends AppCompatActivity {
                 if (routePoints != null && !routePoints.isEmpty()) {
                     Polyline routePolyline = new Polyline();
                     routePolyline.setPoints(routePoints);
-                    routePolyline.setColor(Color.BLUE);
-                    routePolyline.setWidth(5);
+                    routePolyline.setColor(Color.parseColor("#FF5722")); // Set polyline color
+                    routePolyline.setWidth(10); // Set polyline width
 
                     mapView.getOverlayManager().add(routePolyline);
                     mapView.invalidate();
@@ -163,17 +201,16 @@ public class stops extends AppCompatActivity {
         private List<GeoPoint> parseRouteData(String routeData) {
             List<GeoPoint> routePoints = new ArrayList<>();
             try {
-                JSONObject jsonRoute = new JSONObject(routeData);
-                JSONArray jsonRoutes = jsonRoute.getJSONArray("routes");
-                if (jsonRoutes.length() > 0) {
-                    JSONObject jsonRouteObject = jsonRoutes.getJSONObject(0);
-                    JSONObject jsonGeometry = jsonRouteObject.getJSONObject("geometry");
-                    JSONArray jsonCoordinates = jsonGeometry.getJSONArray("coordinates");
-
-                    for (int i = 0; i < jsonCoordinates.length(); i++) {
-                        JSONArray jsonCoordinate = jsonCoordinates.getJSONArray(i);
-                        double lon = jsonCoordinate.getDouble(0);
-                        double lat = jsonCoordinate.getDouble(1);
+                JSONObject jsonResponse = new JSONObject(routeData);
+                JSONArray features = jsonResponse.getJSONArray("features");
+                if (features.length() > 0) {
+                    JSONObject feature = features.getJSONObject(0);
+                    JSONObject geometry = feature.getJSONObject("geometry");
+                    JSONArray coordinates = geometry.getJSONArray("coordinates");
+                    for (int i = 0; i < coordinates.length(); i++) {
+                        JSONArray coord = coordinates.getJSONArray(i);
+                        double lon = coord.getDouble(0);
+                        double lat = coord.getDouble(1);
                         GeoPoint geoPoint = new GeoPoint(lat, lon);
                         routePoints.add(geoPoint);
                     }
@@ -184,4 +221,15 @@ public class stops extends AppCompatActivity {
             return routePoints;
         }
     }
+
+
+    private List<GeoPoint> simplifyPolyline(List<GeoPoint> polyline) {
+        // Apply Douglas-Peucker algorithm to simplify the polyline
+        // You can use libraries like JTS Topology Suite or implement the algorithm manually
+        // Here's a simple implementation using a threshold distance
+        double threshold = 0.0001; // Adjust threshold as needed
+        List<GeoPoint> simplifiedPolyline = PolylineSimplification.simplify(polyline, threshold);
+        return simplifiedPolyline;
+    }
+
 }

@@ -61,6 +61,8 @@ dependencies {
     implementation("com.mapbox.maps:android:11.3.1")
     implementation("com.google.firebase:firebase-database:21.0.0")
     implementation("com.google.firebase:firebase-messaging:24.0.0")
+    implementation ("com.google.maps.android:android-maps-utils:2.2.1")
+
     testImplementation("junit:junit:4.13.2")
 
 
