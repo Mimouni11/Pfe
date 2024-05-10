@@ -49,9 +49,20 @@ public class stops extends AppCompatActivity {
         // Initialize MapView
         Configuration.getInstance().load(getApplicationContext(), getPreferences(MODE_PRIVATE));
         mapView = findViewById(R.id.mapView);
-        mapView.setTileSource(TileSourceFactory.DEFAULT_TILE_SOURCE);
+
+        // Set the center of the map to Tunisia
+        GeoPoint tunisiaCenter = new GeoPoint(34.0, 9.0);
+        mapView.getController().setCenter(tunisiaCenter);
+
+        // Set the initial zoom level to show Tunisia
+        mapView.getController().setZoom(7.0);
+
+        // Set the tile source to a source that focuses on Tunisia (e.g., OpenStreetMap Tunisia tile source)
+        mapView.setTileSource(TileSourceFactory.MAPNIK); // You can replace this with a different tile source focusing on Tunisia
+
         mapView.setBuiltInZoomControls(true);
         mapView.setMultiTouchControls(true);
+
 
         // Retrieve data from Intent extras
         Intent intent = getIntent();
