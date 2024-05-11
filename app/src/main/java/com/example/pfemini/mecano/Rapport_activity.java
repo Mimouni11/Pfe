@@ -81,7 +81,7 @@ public class Rapport_activity extends AppCompatActivity {
                 // If title and content are not empty, then save note and report
                 saveReport();
                 saveNote();
-                sendNotification(content);
+                sendNotification(content,title);
             }
         });
 
@@ -160,13 +160,17 @@ public class Rapport_activity extends AppCompatActivity {
     }
 
 
-    private void sendNotification(String message) {
+    private void sendNotification(String message, String t) {
         // Hardcode the chef's username for now
         String chefUsername = "kaka";
-
+        String title ="New report for "+" "+t;
+        Log.d("title",title);
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        String mecano = sharedPreferences.getString("username", "");
+        Log.d("mecano",mecano);
         // Call the endpoint to send notification
         Apiservices apiService = RetrofitClient.getClient().create(Apiservices.class);
-        Call<Void> call = apiService.sendNotification(chefUsername,message);
+        Call<Void> call = apiService.sendNotification(chefUsername,title,message,mecano);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {

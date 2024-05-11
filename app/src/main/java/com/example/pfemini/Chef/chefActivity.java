@@ -42,6 +42,7 @@ public class chefActivity extends AppCompatActivity {
                         break;
                     case 4:
                         // Button 1 clicked, navigate to ActivityB
+                       startActivity(new Intent(chefActivity.this, NotificationActivity.class));
                         break;
 
                     default:

@@ -5,9 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -37,10 +42,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class stops extends AppCompatActivity {
+public class stops extends AppCompatActivity implements LocationListener {
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private MapView mapView;
-
+    private LocationManager locationManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,13 +116,52 @@ public class stops extends AppCompatActivity {
             }
         });
 
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+        } else {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
+        }
 
+
+    }
+
+
+    @Override
+    public void onLocationChanged(Location location) {
+        // Update current location marker on map
+        GeoPoint currentLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
+        // Create a marker with a custom icon
+        Marker marker = new Marker(mapView);
+        marker.setPosition(currentLocation);
+        marker.setIcon(ContextCompat.getDrawable(this, R.drawable.baseline_location_on_24));
+        mapView.getOverlays().add(marker);
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted, request location updates
+                if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                        && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+                }
+            } else {
+                // Permission denied, handle accordingly
+                Toast.makeText(this, "Location permission denied", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     private void addMarker(GeoPoint location, String title) {
         Marker marker = new Marker(mapView);
         marker.setPosition(location);
         marker.setTitle(title);
+        marker.setIcon(ContextCompat.getDrawable(this, R.drawable.baseline_location_city_24));
         mapView.getOverlays().add(marker);
     }
 

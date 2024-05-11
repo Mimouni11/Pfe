@@ -27,6 +27,7 @@
         <item>@drawable/maps</item>
         <item>@drawable/comm</item>
         <item>@drawable/prof</item>
+        <item>@drawable/notification</item>
 
     </array>
 

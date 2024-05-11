@@ -1,5 +1,6 @@
 package com.example.pfemini;
 
+import com.example.pfemini.Chef.Notification;
 import com.example.pfemini.Models.DriverTask;
 import com.example.pfemini.Models.Tasks_driver;
 import com.google.gson.JsonObject;
@@ -72,6 +73,13 @@ public interface Apiservices {
     @POST("/send_notification")
     Call<Void> sendNotification(
             @Field("username") String username,
-            @Field("message") String message
+            @Field("title") String title,
+            @Field("message") String message,
+            @Field("mecano") String mecano
+
     );
+
+    @GET("/Get_notifications")
+    Call<List<Notification>> getNotifications(@Query("username") String username);
+
 }

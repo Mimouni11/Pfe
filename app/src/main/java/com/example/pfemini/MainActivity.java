@@ -28,8 +28,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         viewPager2 = findViewById(R.id.pager);
-        int[] images = {R.drawable.giphy,R.drawable.gif2,R.drawable.gif3};
-        String[] heading = {"Baked","Grilled","Dessert","Italian","Shakes"};
+        int[] images = {R.drawable.scanqr,R.drawable.plans,R.drawable.comm,R.drawable.prof};
+        String[] heading = {"Scaner le qr code","Planifier votre voyage","Communiquer avec votre chef ","Consulter votre profile","Shakes"};
 
 
         viewPagerItemArrayList = new ArrayList<>();
