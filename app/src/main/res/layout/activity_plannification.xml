@@ -4,49 +4,55 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    tools:context=".MainActivity">
+    tools:context=".driver.MainActivity">
 
-    <org.osmdroid.views.MapView
-        android:id="@+id/mapView"
+    <!-- Default EditText -->
+    <EditText
+        android:id="@+id/defaultEditText"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/editTextContainer" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:hint="Stop"
+        android:textColor="@color/black" />
 
+    <!-- Linear Layout Container for Dynamically Added Views -->
     <LinearLayout
         android:id="@+id/editTextContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/defaultEditText"
+        android:layout_above="@id/buttonsLayout"
+        android:orientation="vertical"/>
+
+    <!-- Buttons Layout -->
+    <LinearLayout
+        android:id="@+id/buttonsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/defaultEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Stop"
-            android:textColor="#FFFFFF" />
-
+        <!-- Add Stop Button -->
         <Button
             android:id="@+id/addButton"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="Add Stop"
-            android:textColor="#FFFFFF"
-            android:backgroundTint="@color/colorPrimary"
             android:layout_marginTop="16dp"
-            android:layout_gravity="center_horizontal"/>
+            android:backgroundTint="@color/colorPrimary"
+            android:text="Add Stop"
+            android:textColor="#FFFFFF" />
 
+        <!-- Done Button -->
+        <Button
+            android:id="@+id/doneButton"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="Done"
+            android:textColor="#FFFFFF" />
     </LinearLayout>
-
-    <Button
-        android:id="@+id/doneButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Done"
-        android:textColor="#FFFFFF"
-        android:backgroundTint="@color/colorPrimary"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="16dp"/>
 
 </RelativeLayout>

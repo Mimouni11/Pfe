@@ -1,33 +1,20 @@
-package com.example.pfemini;
+package com.example.pfemini.driver;
 
-import static com.mapbox.maps.plugin.gestures.GesturesUtils.getGestures;
-import static com.mapbox.maps.plugin.locationcomponent.LocationComponentUtils.getLocationComponent;
-
-import static java.security.AccessController.getContext;
-
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.pfemini.Models.GasStationMarker;
-import com.google.android.gms.maps.model.LatLng;
+import com.example.pfemini.OverpassApiService;
+import com.example.pfemini.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -36,20 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-import com.mapbox.android.gestures.MoveGestureDetector;
-import com.mapbox.geojson.Point;
-import com.mapbox.maps.CameraOptions;
-import com.mapbox.maps.ImageHolder;
-import com.mapbox.maps.Style;
-import com.mapbox.maps.plugin.LocationPuck2D;
-import com.mapbox.maps.plugin.gestures.OnMoveListener;
-import com.mapbox.maps.plugin.locationcomponent.LocationComponentPlugin;
-import com.mapbox.maps.plugin.locationcomponent.OnIndicatorBearingChangedListener;
-import com.mapbox.maps.plugin.locationcomponent.OnIndicatorPositionChangedListener;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;

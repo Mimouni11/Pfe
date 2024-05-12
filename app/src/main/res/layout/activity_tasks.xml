@@ -30,4 +30,12 @@
         app:layout_constraintTop_toBottomOf="@id/textViewTitle"
         app:layout_constraintVertical_bias="1.0" />
 
+    <Button
+        android:id="@+id/confirm_button"
+        android:layout_width="333dp"
+        android:layout_height="43dp"
+        android:text="Confirmer"
+        tools:layout_editor_absoluteX="26dp"
+        tools:layout_editor_absoluteY="652dp"></Button>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

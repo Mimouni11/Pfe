@@ -52,7 +52,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 task.setCompleted(isChecked);
-                updateTaskStatus(task.getName(), isChecked ? "yes" : "no", holder.itemView);
 
                 // Save the state of the checkbox in SharedPreferences
                 SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -67,33 +66,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         return taskList.size();
     }
 
-    private void updateTaskStatus(String taskName, String status, View itemView) {
-        // Get Retrofit instance
-        Apiservices apiService = RetrofitClient.getClient().create(Apiservices.class);
 
-        // Get username from SharedPreferences
-        SharedPreferences prefs = itemView.getContext().getSharedPreferences(profile.PREFS_NAME, MODE_PRIVATE);
-        String username = prefs.getString("username", "");
-
-        // Make network request to update task status
-        Call<Void> call = apiService.updateTaskStatus(username, taskName, status);
-        call.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.isSuccessful()) {
-                    // Task status updated successfully
-                    // You can handle any success logic here
-                } else {
-                    // Handle unsuccessful response
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                // Handle failure
-            }
-        });
-    }
 
     public static class TaskViewHolder extends RecyclerView.ViewHolder {
         TextView textViewTaskName;

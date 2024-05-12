@@ -1,4 +1,4 @@
-package com.example.pfemini;
+package com.example.pfemini.driver;
 
 import static android.content.ContentValues.TAG;
 
@@ -9,7 +9,6 @@ import androidx.core.content.ContextCompat;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.graphics.ImageFormat;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
@@ -17,7 +16,6 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CaptureRequest;
-import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.Image;
@@ -31,6 +29,7 @@ import android.view.SurfaceView;
 import android.widget.Toast;
 import android.Manifest;
 
+import com.example.pfemini.R;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.MultiFormatReader;
 import com.google.zxing.RGBLuminanceSource;
@@ -39,7 +38,6 @@ import com.google.zxing.common.HybridBinarizer;
 
 import java.nio.ByteBuffer;
 import java.util.Arrays;
-import java.util.Collections;
 
 public class Qrscan extends AppCompatActivity implements SurfaceHolder.Callback {
     private static final int CAMERA_PERMISSION_REQUEST_CODE = 200;

@@ -1,4 +1,4 @@
-package com.example.pfemini;
+package com.example.pfemini.driver;
 
 import android.Manifest;
 import android.content.pm.PackageManager;

@@ -37,7 +37,7 @@
         </service>
 
         <activity
-            android:name=".restActivity"
+            android:name=".driver.restActivity"
             android:exported="false" />
         <activity
             android:name=".communication"
@@ -52,13 +52,13 @@
             android:name=".mecano.mecano_main"
             android:exported="false" />
         <activity
-            android:name=".FuelingAct"
+            android:name=".driver.FuelingAct"
             android:exported="false" />
         <activity
-            android:name=".stops"
+            android:name=".driver.stops"
             android:exported="false" />
         <activity
-            android:name=".Plannification"
+            android:name=".driver.Plannification"
             android:exported="false"
             android:theme="@style/AppTheme2" />
         <activity
@@ -88,7 +88,7 @@
             android:exported="false"
             android:theme="@style/AppTheme2" />
         <activity
-            android:name=".Qrscan"
+            android:name=".driver.Qrscan"
             android:exported="false" />
         <activity
             android:name=".profile"
@@ -98,7 +98,7 @@
             android:name=".login"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".driver.MainActivity"
             android:exported="false" />
         <activity
             android:name=".loading"

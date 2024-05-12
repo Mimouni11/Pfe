@@ -1,4 +1,4 @@
-package com.example.pfemini;
+package com.example.pfemini.driver;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,13 +15,12 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.example.pfemini.GeoCoderHelper;
+import com.example.pfemini.PolylineSimplification;
+import com.example.pfemini.R;
 import com.ramotion.circlemenu.CircleMenuView;
-import com.google.maps.android.PolyUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;

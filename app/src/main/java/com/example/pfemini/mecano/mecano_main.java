@@ -5,15 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 
-import com.example.pfemini.MainActivity;
-import com.example.pfemini.Plannification;
 import com.example.pfemini.R;
-import com.example.pfemini.communication;
 import com.example.pfemini.profile;
-import com.example.pfemini.scan;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.ramotion.circlemenu.CircleMenuView;
 
 public class mecano_main extends AppCompatActivity {

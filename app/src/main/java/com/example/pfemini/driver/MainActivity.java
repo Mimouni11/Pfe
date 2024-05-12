@@ -1,4 +1,4 @@
-package com.example.pfemini;
+package com.example.pfemini.driver;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -6,19 +6,17 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 
-import com.denzcoskun.imageslider.ImageSlider;
-import com.denzcoskun.imageslider.constants.ScaleTypes;
-import com.denzcoskun.imageslider.models.SlideModel;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.example.pfemini.R;
+import com.example.pfemini.VPAdapter;
+import com.example.pfemini.communication;
+import com.example.pfemini.profile;
+import com.example.pfemini.scan;
+import com.example.pfemini.viewpageritem;
 import com.ramotion.circlemenu.CircleMenuView;
 
 import java.util.ArrayList;
-
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
     ViewPager2 viewPager2;

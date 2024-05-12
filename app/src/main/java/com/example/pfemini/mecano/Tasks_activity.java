@@ -3,6 +3,8 @@ package com.example.pfemini.mecano;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -57,7 +59,79 @@ public class Tasks_activity extends AppCompatActivity {
         adapter = new TaskAdapter(taskList, prefs); // Pass SharedPreferences to the constructor
         recyclerViewTasks.setAdapter(adapter);
 
+        Button confirmButton = findViewById(R.id.confirm_button);
+        confirmButton.setOnClickListener(v -> {
+            for (Task task : taskList) {
+                if (task.isCompleted()) {
+                    // Call the endpoint to update task status
+                    updateTaskStatus(task.getName(), "yes");
+                }
+            }
+        });
     }
+
+
+    private void updateTaskStatus(String taskName, String status) {
+        // Get Retrofit instance
+        Apiservices apiService = RetrofitClient.getClient().create(Apiservices.class);
+
+        // Get username from SharedPreferences
+        SharedPreferences prefs = getSharedPreferences(profile.PREFS_NAME, MODE_PRIVATE);
+        String username = prefs.getString("username", "");
+
+        // Make network request to update task status
+        Call<Void> call = apiService.updateTaskStatus(username, taskName, status);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    // Task status updated successfully
+                    // You can handle any success logic here
+                    sendNotificationToChef(taskName);
+                } else {
+                    // Handle unsuccessful response
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                // Handle failure
+            }
+        });
+    }
+
+
+
+    private void sendNotificationToChef(String taskName) {
+        // Get Retrofit instance
+        Apiservices apiService = RetrofitClient.getClient().create(Apiservices.class);
+        String username ="kaka";
+        String title="task done";
+        // Get username from SharedPreferences
+
+        SharedPreferences prefs = getSharedPreferences(profile.PREFS_NAME, MODE_PRIVATE);
+        String mecano = prefs.getString("username", "");
+
+        // Make network request to send notification to chef
+        Call<Void> call = apiService.sendNotification(username, title,taskName,mecano);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    // Notification sent successfully
+                    // You can handle any success logic here
+                } else {
+                    // Handle unsuccessful response
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                // Handle failure
+            }
+        });
+    }
+
     private void fetchTasksForCurrentUser(String username) {
         Apiservices apiService = RetrofitClient.getClient().create(Apiservices.class);
         Call<JsonObject> call = apiService.getTasks(username);
