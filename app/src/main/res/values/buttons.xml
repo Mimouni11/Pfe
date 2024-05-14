@@ -4,7 +4,7 @@
         <item>@drawable/home</item>
         <item>@drawable/scanqr</item>
         <item>@drawable/plans</item>
-        <item>@drawable/comm</item>
+        <item>@drawable/maps</item>
         <item>@drawable/prof</item>
     </array>
 

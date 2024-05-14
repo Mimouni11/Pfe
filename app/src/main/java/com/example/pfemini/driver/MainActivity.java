@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case 3:
                         // Button 1 clicked, navigate to ActivityB
-                        startActivity(new Intent(MainActivity.this, communication.class));
+                        startActivity(new Intent(MainActivity.this, stops.class));
                         break;
                     case 4:
                         // Button 1 clicked, navigate to ActivityB

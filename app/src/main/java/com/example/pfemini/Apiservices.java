@@ -5,6 +5,7 @@ import com.example.pfemini.Models.DriverTask;
 import com.example.pfemini.Models.Tasks_driver;
 import com.google.gson.JsonObject;
 
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -69,6 +70,27 @@ public interface Apiservices {
             @Field("username") String username,
             @Field("deviceToken") String deviceToken
     );
+
+    @FormUrlEncoded
+    @POST("/register_tokendriver")
+    Call<Void> saveChefDeviceTokenDriver(
+            @Field("username") String username,
+            @Field("deviceToken") String deviceToken
+    );
+
+
+    @FormUrlEncoded
+    @POST("/register_tokenmecano")
+    Call<Void> saveChefDeviceTokenmecano(
+            @Field("username") String username,
+            @Field("deviceToken") String deviceToken
+    );
+
+
+
+
+
+
     @FormUrlEncoded
     @POST("/send_notification")
     Call<Void> sendNotification(
@@ -81,5 +103,17 @@ public interface Apiservices {
 
     @GET("/Get_notifications")
     Call<List<Notification>> getNotifications(@Query("username") String username);
+
+
+    @FormUrlEncoded
+    @POST("/saveRehla")
+    Call<Void> saveRehla(
+            @Field("username") String username,
+            @Field("addresses") String addresses
+
+    );
+
+    @GET("/get-rehla")
+    Call<List<String>> getRehla(@Query("username") String username);
 
 }

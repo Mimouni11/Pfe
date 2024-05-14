@@ -70,7 +70,9 @@ public class login extends AppCompatActivity {
                                 if ("mecano".equals(role)) {
                                     Intent intent = new Intent(login.this, mecano_main.class);
                                     startActivity(intent);
+                                    savemecanoToken();
                                 } else if ("driver".equals(role)) {
+                                    saveDriverToken();
                                     Intent intent = new Intent(login.this, MainActivity.class);
                                     startActivity(intent);
                                 } else if ("chef".equals(role)) {
@@ -135,7 +137,80 @@ public class login extends AppCompatActivity {
                 });
     }
 
+    private void saveDriverToken() {
+        // Retrieve the device token from Firebase Cloud Messaging
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(task -> {
+                    if (!task.isSuccessful()) {
+                        Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                        return;
+                    }
+                    String deviceToken = task.getResult();
+                    String username = editTextUsername.getText().toString().trim();
+                    Log.d("token",deviceToken);                   // Get new FCM registration token
 
+                    // Now you can save the device token to your backend server or database
+                    // Example: Call an API to save the device token for the logged-in chef
+                    Call<Void> call = apiService.saveChefDeviceTokenDriver(username, deviceToken);
+                    call.enqueue(new Callback<Void>() {
+                        @Override
+                        public void onResponse(Call<Void> call, Response<Void> response) {
+                            if (response.isSuccessful()) {
+                                // Device token saved successfully
+                                Toast.makeText(login.this, "Device token saved for chef", Toast.LENGTH_SHORT).show();
+                            } else {
+                                // Failed to save device token
+                                Toast.makeText(login.this, "Failed to save device token for chef", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Void> call, Throwable t) {
+                            // Handle failure to make API call
+                            Toast.makeText(login.this, "Failed to save device token for chef: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                });
+    }
+
+
+
+
+    private void savemecanoToken() {
+        // Retrieve the device token from Firebase Cloud Messaging
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(task -> {
+                    if (!task.isSuccessful()) {
+                        Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                        return;
+                    }
+                    String deviceToken = task.getResult();
+                    String username = editTextUsername.getText().toString().trim();
+                    Log.d("token",deviceToken);                   // Get new FCM registration token
+
+                    // Now you can save the device token to your backend server or database
+                    // Example: Call an API to save the device token for the logged-in chef
+                    Call<Void> call = apiService.saveChefDeviceTokenmecano(username, deviceToken);
+                    call.enqueue(new Callback<Void>() {
+                        @Override
+                        public void onResponse(Call<Void> call, Response<Void> response) {
+                            if (response.isSuccessful()) {
+                                // Device token saved successfully
+                                Toast.makeText(login.this, "Device token saved for chef", Toast.LENGTH_SHORT).show();
+                            } else {
+                                // Failed to save device token
+                                Toast.makeText(login.this, "Failed to save device token for chef", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Void> call, Throwable t) {
+                            // Handle failure to make API call
+                            Toast.makeText(login.this, "Failed to save device token for chef: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                });
+    }
 
 }
 

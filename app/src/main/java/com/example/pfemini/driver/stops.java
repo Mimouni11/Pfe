@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
@@ -15,11 +16,16 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.pfemini.Apiservices;
 import com.example.pfemini.GeoCoderHelper;
 import com.example.pfemini.PolylineSimplification;
 import com.example.pfemini.R;
+import com.example.pfemini.RetrofitClient;
 import com.ramotion.circlemenu.CircleMenuView;
 
 import org.json.JSONArray;
@@ -40,6 +46,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class stops extends AppCompatActivity implements LocationListener {
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
@@ -69,30 +79,8 @@ public class stops extends AppCompatActivity implements LocationListener {
 
 
         // Retrieve data from Intent extras
-        Intent intent = getIntent();
-        if (intent != null) {
-            List<String> addresses = intent.getStringArrayListExtra("addresses");
 
-            if (addresses != null && addresses.size() >= 2) {
-                // Add markers for each address
-                for (String address : addresses) {
-                    GeoPoint location = GeoCoderHelper.getLocationFromAddress(this, address);
-                    if (location != null) {
-                        addMarker(location, address);
-                    } else {
-                        Toast.makeText(this, "Failed to find location for: " + address, Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                // Calculate route between addresses
-                calculateRouteBetweenAddresses(addresses);
-            } else {
-                Toast.makeText(this, "At least two addresses are required to calculate the route", Toast.LENGTH_SHORT).show();
-            }
-        } else {
-            Toast.makeText(this, "No addresses provided", Toast.LENGTH_SHORT).show();
-        }
-
+        fetchDataFromApi();
 
         final CircleMenuView menu = findViewById(R.id.menu);
         menu.setEventListener(new CircleMenuView.EventListener() {
@@ -125,6 +113,83 @@ public class stops extends AppCompatActivity implements LocationListener {
 
 
     }
+
+
+    private double calculateDistance(GeoPoint point1, GeoPoint point2) {
+        double lon1 = Math.toRadians(point1.getLongitude());
+        double lat1 = Math.toRadians(point1.getLatitude());
+        double lon2 = Math.toRadians(point2.getLongitude());
+        double lat2 = Math.toRadians(point2.getLatitude());
+
+        double dlon = lon2 - lon1;
+        double dlat = lat2 - lat1;
+
+        double a = Math.pow(Math.sin(dlat / 2), 2) +
+                Math.cos(lat1) * Math.cos(lat2) *
+                        Math.pow(Math.sin(dlon / 2), 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+        // Radius of the Earth in kilometers
+        double radius = 6371.0;
+
+        return radius * c;
+    }
+
+    private double calculateTotalDistance(List<GeoPoint> routePoints) {
+        double totalDistance = 0.0;
+
+        for (int i = 0; i < routePoints.size() - 1; i++) {
+            GeoPoint point1 = routePoints.get(i);
+            GeoPoint point2 = routePoints.get(i + 1);
+            totalDistance += calculateDistance(point1, point2);
+        }
+
+        return totalDistance;
+    }
+
+
+
+    private void fetchDataFromApi() {
+        // Replace "YOUR_USERNAME" with the actual username
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        String username = sharedPreferences.getString("username", "");
+        Log.d("name",username);
+        Apiservices apiService = RetrofitClient.getClient().create(Apiservices.class);
+        Call<List<String>> call = apiService.getRehla(username);
+        call.enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                if (response.isSuccessful()) {
+                    List<String> addresses = response.body();
+                    if (addresses != null && !addresses.isEmpty()) {
+                        // Add markers for each address
+                        for (String address : addresses) {
+                            GeoPoint location = GeoCoderHelper.getLocationFromAddress(stops.this, address);
+                            if (location != null) {
+                                addMarker(location, address);
+                            } else {
+                                Toast.makeText(stops.this, "Failed to find location for: " + address, Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        // Calculate route between addresses
+                        calculateRouteBetweenAddresses(addresses);
+                    } else {
+                        Toast.makeText(stops.this, "No addresses found", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(stops.this, "Failed to fetch data", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+                Toast.makeText(stops.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.d("errora",t.getMessage());
+            }
+        });
+    }
+
 
 
     @Override
@@ -237,6 +302,12 @@ public class stops extends AppCompatActivity implements LocationListener {
                 List<GeoPoint> routePoints = parseRouteData(routeData);
 
                 if (routePoints != null && !routePoints.isEmpty()) {
+
+                    double totalDistance = calculateTotalDistance(routePoints);
+                    int roundedDistance=(int) Math.floor(totalDistance);
+                    TextView textViewTotalDistance = findViewById(R.id.textViewTotalDistance);
+                    textViewTotalDistance.setText("Total Distance: " + roundedDistance + " km");
+                    textViewTotalDistance.setVisibility(View.VISIBLE); // Make the TextView visible
                     Polyline routePolyline = new Polyline();
                     routePolyline.setPoints(routePoints);
                     routePolyline.setColor(Color.parseColor("#FF5722")); // Set polyline color
