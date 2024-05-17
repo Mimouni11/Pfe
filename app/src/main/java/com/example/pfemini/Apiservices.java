@@ -55,7 +55,13 @@ public interface Apiservices {
             @Field("taskName") String taskName,
             @Field("status") String status
     );
-
+    @GET("/get_pending_tasks")
+    Call<JsonObject> getPendingTasks();
+    @FormUrlEncoded
+    @POST("/confirm_task")
+    Call<Void> confirmTask(
+            @Field("taskName") String taskName
+    );
     @FormUrlEncoded
     @POST("/report")
     Call<Void> saveReport(

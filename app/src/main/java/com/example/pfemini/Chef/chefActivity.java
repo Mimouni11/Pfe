@@ -34,7 +34,8 @@ public class chefActivity extends AppCompatActivity {
                         break;
                     // Add more cases for additional buttons if needed
                     case 2:
-                        // Button 1 clicked, navigate to ActivityB
+                        startActivity(new Intent(chefActivity.this, Pending.class));
+
                         break;
                     case 3:
                         // Button 1 clicked, navigate to ActivityB

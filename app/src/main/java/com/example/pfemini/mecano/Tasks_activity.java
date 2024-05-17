@@ -72,21 +72,15 @@ public class Tasks_activity extends AppCompatActivity {
 
 
     private void updateTaskStatus(String taskName, String status) {
-        // Get Retrofit instance
         Apiservices apiService = RetrofitClient.getClient().create(Apiservices.class);
-
-        // Get username from SharedPreferences
         SharedPreferences prefs = getSharedPreferences(profile.PREFS_NAME, MODE_PRIVATE);
         String username = prefs.getString("username", "");
 
-        // Make network request to update task status
         Call<Void> call = apiService.updateTaskStatus(username, taskName, status);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
-                    // Task status updated successfully
-                    // You can handle any success logic here
                     sendNotificationToChef(taskName);
                 } else {
                     // Handle unsuccessful response
@@ -99,6 +93,7 @@ public class Tasks_activity extends AppCompatActivity {
             }
         });
     }
+
 
 
 
