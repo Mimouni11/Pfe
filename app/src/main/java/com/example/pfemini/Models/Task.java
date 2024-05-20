@@ -4,12 +4,18 @@ public class Task {
     private String name;
     private boolean completed;
     private String mechanicName; // Add this field
+    private String model; // Add model field
+    private String matricule; // Add matricule field
 
-    public Task(String name) {
+    // Constructor with all fields
+    public Task(String name, String model, String matricule) {
         this.name = name;
+        this.model = model;
+        this.matricule = matricule;
         this.completed = false; // Initialize as incomplete by default
     }
 
+    // Other existing getters and setters...
     public String getName() {
         return name;
     }
@@ -28,5 +34,21 @@ public class Task {
 
     public void setMechanicName(String mechanicName) { // Add this setter method
         this.mechanicName = mechanicName;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public String getMatricule() {
+        return matricule;
+    }
+
+    public void setMatricule(String matricule) {
+        this.matricule = matricule;
     }
 }

@@ -28,6 +28,21 @@
             android:layout_marginStart="16dp"
             android:textSize="16sp"
             android:textColor="@android:color/black"/>
-
+        <TextView
+            android:id="@+id/textViewModel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="16dp"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"/>
+        <TextView
+            android:id="@+id/textViewMatricule"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="16dp"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"/>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

@@ -231,25 +231,34 @@ public class FuelingAct extends AppCompatActivity {
 
     private void updateLocationInDatabase() {
         if (username != null && mLocationOverlay != null && mLocationOverlay.getMyLocation() != null) {
+            // Get the user's current location
             GeoPoint myLocation = mLocationOverlay.getMyLocation();
             double latitude = myLocation.getLatitude();
             double longitude = myLocation.getLongitude();
+
+            // Reference to the database location where the user's location will be updated
+            // Here, it's under the "sharedLocations" node and then under "driver_locations" node
+            // with the username as a child node.
             userLocationRef.child(username).child("latitude").setValue(latitude);
             userLocationRef.child(username).child("longitude").setValue(longitude)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
+                            // Log success message if location update succeeds
                             Log.d("LocationUpdate", "Location updated successfully");
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
+                            // Log failure message if location update fails
                             Log.e("LocationUpdate", "Failed to update location", e);
                         }
                     });
         } else {
+            // Show a toast message if unable to update location
             Toast.makeText(this, "Unable to update location", Toast.LENGTH_SHORT).show();
         }
     }
+
 }

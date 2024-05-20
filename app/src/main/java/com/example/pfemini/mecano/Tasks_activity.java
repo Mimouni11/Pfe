@@ -32,6 +32,7 @@ public class Tasks_activity extends AppCompatActivity {
     private RecyclerView recyclerViewTasks;
     private TaskAdapter adapter;
     private List<Task> taskList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,20 +96,18 @@ public class Tasks_activity extends AppCompatActivity {
     }
 
 
-
-
     private void sendNotificationToChef(String taskName) {
         // Get Retrofit instance
         Apiservices apiService = RetrofitClient.getClient().create(Apiservices.class);
-        String username ="kaka";
-        String title="task done";
+        String username = "kaka";
+        String title = "task done";
         // Get username from SharedPreferences
 
         SharedPreferences prefs = getSharedPreferences(profile.PREFS_NAME, MODE_PRIVATE);
         String mecano = prefs.getString("username", "");
 
         // Make network request to send notification to chef
-        Call<Void> call = apiService.sendNotification(username, title,taskName,mecano);
+        Call<Void> call = apiService.sendNotification(username, title, taskName, mecano);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
@@ -146,8 +145,12 @@ public class Tasks_activity extends AppCompatActivity {
 
                         // Iterate through tasksArray and add them to taskList
                         for (JsonElement taskElement : tasksArray) {
-                            String taskName = taskElement.getAsString();
-                            Task task = new Task(taskName);
+                            JsonObject taskObject = taskElement.getAsJsonObject();
+                            String taskName = taskObject.get("task").getAsString();
+                            String model = taskObject.get("model").getAsString();
+                            String matricule = taskObject.get("matricule").getAsString();
+
+                            Task task = new Task(taskName, model, matricule);
                             taskList.add(task);
                         }
 
@@ -169,6 +172,9 @@ public class Tasks_activity extends AppCompatActivity {
             }
         });
     }
+
+
+
 
 
 }

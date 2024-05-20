@@ -43,6 +43,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     public void onBindViewHolder(@NonNull TaskViewHolder holder, int position) {
         Task task = taskList.get(position);
         holder.textViewTaskName.setText(task.getName());
+        holder.textViewModel.setText(task.getModel()); // Set model text
+        holder.textViewMatricule.setText(task.getMatricule()); // Set matricule text
 
         // Get the saved state of the checkbox from SharedPreferences
         boolean isChecked = sharedPreferences.getBoolean(task.getName(), false);
@@ -66,15 +68,17 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         return taskList.size();
     }
 
-
-
     public static class TaskViewHolder extends RecyclerView.ViewHolder {
         TextView textViewTaskName;
+        TextView textViewModel;
+        TextView textViewMatricule;
         CheckBox checkboxTask;
 
         public TaskViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewTaskName = itemView.findViewById(R.id.textViewTaskName);
+            textViewModel = itemView.findViewById(R.id.textViewModel);
+            textViewMatricule = itemView.findViewById(R.id.textViewMatricule);
             checkboxTask = itemView.findViewById(R.id.checkboxTask);
         }
     }

@@ -73,7 +73,7 @@ public class Pending extends AppCompatActivity {
                             JsonObject taskObj = taskElement.getAsJsonObject();
                             String mechanicName = taskObj.get("mechanic").getAsString();
                             String taskName = taskObj.get("task").getAsString();
-                            Task task = new Task(taskName);
+                            Task task = new Task(taskName,"","");
                             task.setMechanicName(mechanicName);
                             taskList.add(task);
                         }

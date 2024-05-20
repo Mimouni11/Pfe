@@ -35,7 +35,8 @@
         android:layout_width="333dp"
         android:layout_height="43dp"
         android:text="Confirmer"
-        tools:layout_editor_absoluteX="26dp"
-        tools:layout_editor_absoluteY="652dp"></Button>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"></Button>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
