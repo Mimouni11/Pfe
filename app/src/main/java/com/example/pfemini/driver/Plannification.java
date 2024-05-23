@@ -4,6 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -17,6 +20,7 @@ import com.example.pfemini.Apiservices;
 import com.example.pfemini.R;
 import com.example.pfemini.RetrofitClient;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,6 +94,9 @@ public class Plannification extends AppCompatActivity {
             addressesString.deleteCharAt(addressesString.length() - 1);
         }
 
+        // Calculate total distance in KM
+        float totalDistanceInKM = calculateTotalDistance(addresses);
+
         // Pass the constructed string to the next activity
         intent.putExtra("addresses", addressesString.toString());
         startActivity(intent);
@@ -98,7 +105,7 @@ public class Plannification extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         String username = sharedPreferences.getString("username", "");
         Apiservices apiServices = RetrofitClient.getClient().create(Apiservices.class);
-        Call<Void> call = apiServices.saveRehla(username, addressesString.toString());
+        Call<Void> call = apiServices.saveRehla(username, addressesString.toString(), totalDistanceInKM);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
@@ -119,7 +126,40 @@ public class Plannification extends AppCompatActivity {
         });
     }
 
+    private float calculateTotalDistance(List<String> addresses) {
+        float totalDistance = 0.0f;
+        Location prevLocation = null;
 
+        for (String address : addresses) {
+            Location location = getLocationFromAddress(address);
+            if (location != null && prevLocation != null) {
+                totalDistance += prevLocation.distanceTo(location) / 1000.0f; // Convert to KM
+            }
+            prevLocation = location;
+        }
+
+        return totalDistance;
+    }
+
+    private Location getLocationFromAddress(String strAddress) {
+        Geocoder coder = new Geocoder(this);
+        List<Address> address;
+        Location location = new Location("");
+
+        try {
+            address = coder.getFromLocationName(strAddress, 5);
+            if (address == null) {
+                return null;
+            }
+            Address locationAddress = address.get(0);
+            location.setLatitude(locationAddress.getLatitude());
+            location.setLongitude(locationAddress.getLongitude());
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+        return location;
+    }
 
 
 

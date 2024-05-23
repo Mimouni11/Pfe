@@ -2,6 +2,8 @@
 <resources>
     <array name="icons">
         <item>@drawable/home</item>
+        <item>@drawable/dashboard</item>
+
         <item>@drawable/scanqr</item>
         <item>@drawable/plans</item>
         <item>@drawable/maps</item>

@@ -1,10 +1,11 @@
-package com.example.pfemini;
+package com.example.pfemini.Models;
 
 public class LoginResponse {
     private String status;
     private String message;
-    private String role; // Add role field
+    private String role;
 
+    // Getters and Setters
     public String getStatus() {
         return status;
     }

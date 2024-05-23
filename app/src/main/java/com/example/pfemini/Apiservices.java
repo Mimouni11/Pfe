@@ -1,14 +1,17 @@
 package com.example.pfemini;
 
 import com.example.pfemini.Chef.Notification;
+import com.example.pfemini.Models.DestinationCount;
 import com.example.pfemini.Models.DriverTask;
-import com.example.pfemini.Models.Tasks_driver;
+import com.example.pfemini.Models.LoginRequest;
+import com.example.pfemini.Models.LoginResponse;
+import com.example.pfemini.Models.MonthlyDistance;
 import com.google.gson.JsonObject;
 
-import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -17,12 +20,10 @@ import retrofit2.http.Query;
 
 public interface Apiservices {
 
-    @FormUrlEncoded
     @POST("/authenticate")
     Call<LoginResponse> authenticateUser(
-            @Field("username") String username,
-            @Field("password") String password
-    );
+           @Body LoginRequest loginRequest)
+    ;
     @FormUrlEncoded
     @POST("change_password")
     Call<Changeresponse> changePassword(
@@ -79,7 +80,7 @@ public interface Apiservices {
 
     @FormUrlEncoded
     @POST("/register_tokendriver")
-    Call<Void> saveChefDeviceTokenDriver(
+    Call<Void> saveDriverDeviceToken(
             @Field("username") String username,
             @Field("deviceToken") String deviceToken
     );
@@ -87,7 +88,7 @@ public interface Apiservices {
 
     @FormUrlEncoded
     @POST("/register_tokenmecano")
-    Call<Void> saveChefDeviceTokenmecano(
+    Call<Void> saveMecanoDeviceToken(
             @Field("username") String username,
             @Field("deviceToken") String deviceToken
     );
@@ -115,11 +116,15 @@ public interface Apiservices {
     @POST("/saveRehla")
     Call<Void> saveRehla(
             @Field("username") String username,
-            @Field("addresses") String addresses
-
+            @Field("addresses") String addresses,
+            @Field("km") float km
     );
 
     @GET("/get-rehla")
     Call<List<String>> getRehla(@Query("username") String username);
 
+    @GET("/getMonthlyDistance")
+    Call<List<MonthlyDistance>> getMonthlyDistance(@Query("username") String username);
+    @GET("/getDestinationCounts")
+    Call<List<DestinationCount>> getDestinationCounts(@Query("username") String username);
 }

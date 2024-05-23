@@ -80,20 +80,25 @@ public class MainActivity extends AppCompatActivity {
                         // Button 0 clicked, navigate to ActivityA
                         startActivity(new Intent(MainActivity.this, MainActivity.class));
                         break;
+
                     case 1:
+                        // Button 0 clicked, navigate to ActivityA
+                        startActivity(new Intent(MainActivity.this, DashboardActivity.class));
+                        break;
+                        case 2:
                         // Button 1 clicked, navigate to ActivityB
                         startActivity(new Intent(MainActivity.this, scan.class));
                         break;
                     // Add more cases for additional buttons if needed
-                    case 2:
+                    case 3:
                         // Button 1 clicked, navigate to ActivityB
                         startActivity(new Intent(MainActivity.this, Plannification.class));
                         break;
-                    case 3:
+                    case 4:
                         // Button 1 clicked, navigate to ActivityB
                         startActivity(new Intent(MainActivity.this, stops.class));
                         break;
-                    case 4:
+                    case 5:
                         // Button 1 clicked, navigate to ActivityB
                         startActivity(new Intent(MainActivity.this, profile.class));
                         break;
