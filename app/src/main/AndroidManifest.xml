@@ -26,13 +26,13 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".driver.DashboardActivity"
+            android:name=".UI.driver.DashboardActivity"
             android:exported="false" />
         <activity
-            android:name=".Chef.Pending"
+            android:name=".UI.Chef.Pending"
             android:exported="false" />
         <activity
-            android:name=".Chef.NotificationActivity"
+            android:name=".UI.Chef.NotificationActivity"
             android:exported="false" />
 
         <service
@@ -44,28 +44,28 @@
         </service>
 
         <activity
-            android:name=".driver.restActivity"
+            android:name=".UI.driver.restActivity"
             android:exported="false" />
         <activity
             android:name=".communication"
             android:exported="false" />
         <activity
-            android:name=".mecano.Tasks_activity"
+            android:name=".UI.Mecano.Tasks_activity"
             android:exported="false" />
         <activity
-            android:name=".mecano.Rapport_activity"
+            android:name=".UI.Mecano.Rapport_activity"
             android:exported="false" />
         <activity
-            android:name=".mecano.mecano_main"
+            android:name=".UI.Mecano.mecano_main"
             android:exported="false" />
         <activity
-            android:name=".driver.FuelingAct"
+            android:name=".UI.driver.FuelingAct"
             android:exported="false" />
         <activity
-            android:name=".driver.stops"
+            android:name=".UI.driver.stops"
             android:exported="false" />
         <activity
-            android:name=".driver.Plannification"
+            android:name=".UI.driver.Plannification"
             android:exported="false"
             android:theme="@style/AppTheme2" />
         <activity
@@ -78,37 +78,37 @@
             android:name=".MecanoActivity"
             android:exported="false" />
         <activity
-            android:name=".Chef.chefActivity"
+            android:name=".UI.Chef.chefActivity"
             android:exported="false" />
         <activity
-            android:name=".Chef.LocationActivity"
+            android:name=".UI.Chef.LocationActivity"
             android:exported="false" /> <!-- Intent filters, if any -->
         <activity
-            android:name=".Passwordmodif"
+            android:name=".UI.common.Passwordmodif"
             android:exported="false"
             android:theme="@style/AppTheme2" />
         <activity
-            android:name=".Avatar_selection"
+            android:name=".UI.common.Avatar_selection"
             android:exported="false" />
         <activity
-            android:name=".scan"
+            android:name=".UI.driver.scan"
             android:exported="false"
             android:theme="@style/AppTheme2" />
         <activity
-            android:name=".driver.Qrscan"
+            android:name=".UI.driver.Qrscan"
             android:exported="false" />
         <activity
-            android:name=".profile"
+            android:name=".UI.common.profile"
             android:exported="false"
             android:theme="@style/AppTheme2" />
         <activity
-            android:name=".login"
+            android:name=".UI.common.login"
             android:exported="false" />
         <activity
-            android:name=".driver.MainActivity"
+            android:name=".UI.driver.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".loading"
+            android:name=".UI.common.loading"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

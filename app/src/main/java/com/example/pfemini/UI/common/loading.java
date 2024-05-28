@@ -1,4 +1,4 @@
-package com.example.pfemini;
+package com.example.pfemini.UI.common;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
@@ -13,9 +13,10 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.pfemini.Chef.chefActivity;
-import com.example.pfemini.driver.MainActivity;
-import com.example.pfemini.mecano.mecano_main;
+import com.example.pfemini.R;
+import com.example.pfemini.UI.Chef.chefActivity;
+import com.example.pfemini.UI.driver.MainActivity;
+import com.example.pfemini.UI.Mecano.mecano_main;
 
 public class loading extends AppCompatActivity {
     private static final int SPLASH_DURATION = 3000; // Duration of splash screen in milliseconds

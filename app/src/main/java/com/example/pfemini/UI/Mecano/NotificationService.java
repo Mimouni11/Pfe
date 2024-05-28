@@ -1,4 +1,4 @@
-package com.example.pfemini.mecano;
+package com.example.pfemini.UI.Mecano;
 
 import retrofit2.Call;
 import retrofit2.http.Field;

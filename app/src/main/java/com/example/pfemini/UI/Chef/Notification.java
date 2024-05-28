@@ -1,4 +1,4 @@
-package com.example.pfemini.Chef;
+package com.example.pfemini.UI.Chef;
 
 public class Notification {
     private String title;

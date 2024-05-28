@@ -1,4 +1,4 @@
-package com.example.pfemini;
+package com.example.pfemini.Models;
 
 public class Changeresponse {
     private String status;

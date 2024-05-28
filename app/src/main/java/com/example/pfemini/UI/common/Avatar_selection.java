@@ -1,4 +1,4 @@
-package com.example.pfemini;
+package com.example.pfemini.UI.common;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,6 +8,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
+
+import com.example.pfemini.AvatarAdapter;
+import com.example.pfemini.R;
 
 public class Avatar_selection extends AppCompatActivity {
 

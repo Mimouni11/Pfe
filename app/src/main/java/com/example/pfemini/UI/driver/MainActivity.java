@@ -1,4 +1,4 @@
-package com.example.pfemini.driver;
+package com.example.pfemini.UI.driver;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,9 +10,7 @@ import android.view.View;
 
 import com.example.pfemini.R;
 import com.example.pfemini.VPAdapter;
-import com.example.pfemini.communication;
-import com.example.pfemini.profile;
-import com.example.pfemini.scan;
+import com.example.pfemini.UI.common.profile;
 import com.example.pfemini.viewpageritem;
 import com.ramotion.circlemenu.CircleMenuView;
 

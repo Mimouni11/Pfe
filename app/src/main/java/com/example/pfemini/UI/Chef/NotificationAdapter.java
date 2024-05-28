@@ -1,4 +1,4 @@
-package com.example.pfemini.Chef;
+package com.example.pfemini.UI.Chef;
 
 import android.util.Log;
 import android.view.LayoutInflater;

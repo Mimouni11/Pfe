@@ -1,4 +1,4 @@
-package com.example.pfemini.mecano;
+package com.example.pfemini.UI.Chef;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,15 +7,18 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.pfemini.R;
-import com.example.pfemini.profile;
+import com.example.pfemini.UI.common.profile;
 import com.ramotion.circlemenu.CircleMenuView;
 
-public class mecano_main extends AppCompatActivity {
+public class chefActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mecano_main);
+        setContentView(R.layout.activity_chef);
+
+
+
         final CircleMenuView menu = findViewById(R.id.menu);
         menu.setEventListener(new CircleMenuView.EventListener() {
             @Override
@@ -23,25 +26,24 @@ public class mecano_main extends AppCompatActivity {
                 switch (index) {
                     case 0:
                         // Button 0 clicked, navigate to ActivityA
-
+                        startActivity(new Intent(chefActivity.this, chefActivity.class));
                         break;
                     case 1:
                         // Button 1 clicked, navigate to ActivityB
-                        startActivity(new Intent(mecano_main.this, Tasks_activity.class));
+                        startActivity(new Intent(chefActivity.this, LocationActivity.class));
                         break;
                     // Add more cases for additional buttons if needed
                     case 2:
-                        // Button 1 clicked, navigate to ActivityB
-                        startActivity(new Intent(mecano_main.this, Rapport_activity.class));
+                        startActivity(new Intent(chefActivity.this, Pending.class));
+
                         break;
                     case 3:
                         // Button 1 clicked, navigate to ActivityB
-
+                        startActivity(new Intent(chefActivity.this, profile.class));
                         break;
                     case 4:
                         // Button 1 clicked, navigate to ActivityB
-                        startActivity(new Intent(mecano_main.this, profile.class));
-
+                       startActivity(new Intent(chefActivity.this, NotificationActivity.class));
                         break;
 
                     default:
@@ -49,4 +51,6 @@ public class mecano_main extends AppCompatActivity {
                 }
             }
         });
-    }}
+
+    }
+}

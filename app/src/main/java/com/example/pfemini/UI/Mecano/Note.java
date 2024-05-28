@@ -1,4 +1,4 @@
-package com.example.pfemini.mecano;
+package com.example.pfemini.UI.Mecano;
 
 public class Note {
     private String matricule;

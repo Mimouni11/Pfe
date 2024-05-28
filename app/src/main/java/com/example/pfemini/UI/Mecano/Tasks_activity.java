@@ -1,4 +1,4 @@
-package com.example.pfemini.mecano;
+package com.example.pfemini.UI.Mecano;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,7 +15,7 @@ import com.example.pfemini.Network.Apiservices;
 import com.example.pfemini.Models.Task;
 import com.example.pfemini.R;
 import com.example.pfemini.Network.RetrofitClient;
-import com.example.pfemini.profile;
+import com.example.pfemini.UI.common.profile;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

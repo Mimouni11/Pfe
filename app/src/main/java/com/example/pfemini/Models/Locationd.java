@@ -1,4 +1,4 @@
-package com.example.pfemini;
+package com.example.pfemini.Models;
 
 public class Locationd {
     private double latitude;

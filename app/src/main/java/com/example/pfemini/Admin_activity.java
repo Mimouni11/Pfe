@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.example.pfemini.UI.common.profile;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class Admin_activity extends AppCompatActivity {

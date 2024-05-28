@@ -1,4 +1,4 @@
-package com.example.pfemini;
+package com.example.pfemini.UI.driver;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +17,7 @@ import com.example.pfemini.Adapters.DriverTaskAdapter;
 import com.example.pfemini.Models.DriverTask;
 import com.example.pfemini.Network.Apiservices;
 import com.example.pfemini.Network.RetrofitClient;
+import com.example.pfemini.R;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 

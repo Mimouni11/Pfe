@@ -1,4 +1,4 @@
-package com.example.pfemini;
+package com.example.pfemini.UI.common;
 
 import androidx.appcompat.app.AppCompatActivity;
 import retrofit2.Call;
@@ -12,8 +12,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.pfemini.Models.Changeresponse;
 import com.example.pfemini.Network.Apiservices;
 import com.example.pfemini.Network.RetrofitClient;
+import com.example.pfemini.R;
 
 public class Passwordmodif extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package com.example.pfemini.mecano;
+package com.example.pfemini.UI.Mecano;
 
 import android.Manifest;
 import android.content.DialogInterface;

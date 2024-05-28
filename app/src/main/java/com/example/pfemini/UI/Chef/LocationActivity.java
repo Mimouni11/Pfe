@@ -1,4 +1,4 @@
-package com.example.pfemini.Chef;
+package com.example.pfemini.UI.Chef;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;

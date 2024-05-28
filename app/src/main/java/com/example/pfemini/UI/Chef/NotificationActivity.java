@@ -1,4 +1,4 @@
-package com.example.pfemini.Chef;
+package com.example.pfemini.UI.Chef;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;

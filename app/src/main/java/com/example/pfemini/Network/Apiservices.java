@@ -1,8 +1,8 @@
 package com.example.pfemini.Network;
 
 import com.example.pfemini.Addresponse;
-import com.example.pfemini.Changeresponse;
-import com.example.pfemini.Chef.Notification;
+import com.example.pfemini.Models.Changeresponse;
+import com.example.pfemini.UI.Chef.Notification;
 import com.example.pfemini.Models.DestinationCount;
 import com.example.pfemini.Models.DriverTask;
 import com.example.pfemini.Models.LoginRequest;
