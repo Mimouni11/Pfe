@@ -21,11 +21,11 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.pfemini.Apiservices;
+import com.example.pfemini.Network.Apiservices;
 import com.example.pfemini.GeoCoderHelper;
 import com.example.pfemini.PolylineSimplification;
 import com.example.pfemini.R;
-import com.example.pfemini.RetrofitClient;
+import com.example.pfemini.Network.RetrofitClient;
 import com.ramotion.circlemenu.CircleMenuView;
 
 import org.json.JSONArray;

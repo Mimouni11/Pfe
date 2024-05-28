@@ -4,19 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.pfemini.Adapters.PendingTaskAdapter;
-import com.example.pfemini.Adapters.TaskAdapter;
-import com.example.pfemini.Apiservices;
+import com.example.pfemini.Network.Apiservices;
 import com.example.pfemini.Models.Task;
 import com.example.pfemini.R;
-import com.example.pfemini.RetrofitClient;
-import com.example.pfemini.profile;
+import com.example.pfemini.Network.RetrofitClient;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

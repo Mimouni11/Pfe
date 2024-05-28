@@ -1,4 +1,4 @@
-package com.example.pfemini;
+package com.example.pfemini.Network;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
 
-    private static final String BASE_URL = "http://192.168.1.167:5001/";
+    private static final String BASE_URL = "http://172.20.10.3:5001/";
 
     private static Retrofit retrofit;
 

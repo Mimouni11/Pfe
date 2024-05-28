@@ -10,15 +10,14 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
-import com.example.pfemini.Apiservices;
+import com.example.pfemini.Network.Apiservices;
 import com.example.pfemini.R;
-import com.example.pfemini.RetrofitClient;
+import com.example.pfemini.Network.RetrofitClient;
 
 import java.io.IOException;
 import java.util.ArrayList;

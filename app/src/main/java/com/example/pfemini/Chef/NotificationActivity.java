@@ -7,9 +7,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import com.example.pfemini.Apiservices;
+import com.example.pfemini.Network.Apiservices;
 import com.example.pfemini.R;
-import com.example.pfemini.RetrofitClient;
+import com.example.pfemini.Network.RetrofitClient;
 
 import java.util.List;
 

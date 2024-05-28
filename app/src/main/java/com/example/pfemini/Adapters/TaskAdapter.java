@@ -1,9 +1,6 @@
 package com.example.pfemini.Adapters;
 
-import static android.content.Context.MODE_PRIVATE;
-
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,13 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 import com.example.pfemini.Models.Task;
-import com.example.pfemini.Apiservices;
 import com.example.pfemini.R;
-import com.example.pfemini.RetrofitClient;
-import com.example.pfemini.profile;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
 

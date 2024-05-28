@@ -3,7 +3,6 @@ package com.example.pfemini.mecano;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -12,10 +11,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pfemini.Adapters.TaskAdapter;
-import com.example.pfemini.Apiservices;
+import com.example.pfemini.Network.Apiservices;
 import com.example.pfemini.Models.Task;
 import com.example.pfemini.R;
-import com.example.pfemini.RetrofitClient;
+import com.example.pfemini.Network.RetrofitClient;
 import com.example.pfemini.profile;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;

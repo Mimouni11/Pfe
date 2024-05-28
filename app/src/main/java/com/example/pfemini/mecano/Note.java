@@ -1,18 +1,17 @@
-package com.example.test2;
+package com.example.pfemini.mecano;
 
 public class Note {
-    private String Matricule;
+    private String matricule;
     private String content;
 
-    public Note() {
+    public Note() {}
 
-    }
     public String getMatricule() {
-        return Matricule;
+        return matricule;
     }
 
-    public void setMatricule(String title) {
-        this.Matricule = title;
+    public void setMatricule(String matricule) {
+        this.matricule = matricule;
     }
 
     public String getContent() {
@@ -23,8 +22,8 @@ public class Note {
         this.content = content;
     }
 
-    public Note(String title, String content) {
-        this.Matricule = title;
+    public Note(String matricule, String content) {
+        this.matricule = matricule;
         this.content = content;
     }
 }

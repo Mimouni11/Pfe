@@ -1,5 +1,7 @@
-package com.example.pfemini;
+package com.example.pfemini.Network;
 
+import com.example.pfemini.Addresponse;
+import com.example.pfemini.Changeresponse;
 import com.example.pfemini.Chef.Notification;
 import com.example.pfemini.Models.DestinationCount;
 import com.example.pfemini.Models.DriverTask;
@@ -66,8 +68,10 @@ public interface Apiservices {
     @FormUrlEncoded
     @POST("/report")
     Call<Void> saveReport(
-            @Field("title") String title,
-            @Field("content") String content,
+            @Field("vehicleId") String vehicleId,
+            @Field("issueDescription") String issueDescription,
+            @Field("workDescription") String workDescription,
+            @Field("signature") String signature,
             @Field("username") String username
     );
 

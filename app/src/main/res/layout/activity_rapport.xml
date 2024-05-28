@@ -8,39 +8,76 @@
     android:padding="16dp"
     tools:context=".mecano.Rapport_activity">
 
+    <!-- Vehicle Information Section -->
     <EditText
-        android:id="@+id/titleEditText"
+        android:id="@+id/vehicleIdEditText"
         android:layout_width="match_parent"
         android:layout_height="46dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/edittext_bg"
-        android:hint="Matricule"
+        android:hint="ID du Véhicule"
         android:paddingLeft="10dp"
         android:textColor="@color/black" />
 
+    <!-- Issues Identified Section -->
     <EditText
-        android:id="@+id/contentEditText"
+        android:id="@+id/issueDescriptionEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:background="@drawable/edittext_bg"
-        android:hint="Ecrire votre rapport"
+        android:hint="Description du Problème"
         android:inputType="textMultiLine"
-        android:minLines="5"
+        android:minLines="3"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:textColor="@color/black" />
+
+    <!-- Work Performed Section -->
+    <EditText
+        android:id="@+id/workDescriptionEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/edittext_bg"
+        android:hint="Description du Travail Effectué"
+        android:inputType="textMultiLine"
+        android:minLines="3"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textColor="@color/black" />
+
+    <!-- Signature Section -->
+    <EditText
+        android:id="@+id/signatureEditText"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/edittext_bg"
+        android:hint="Signature du Mécanicien"
+        android:paddingLeft="10dp"
+        android:textColor="@color/black" />
+
+    <!-- Buttons for Image Upload and Save -->
+    <Button
+        android:id="@+id/uploadButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Importer image" />
 
     <Button
         android:id="@+id/saveButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Save Notes"
-        android:layout_marginTop="16dp"/>
+        android:text="Sauvegarder"
+        android:layout_marginTop="8dp"/>
 
+    <!-- TextView and ScrollView for Report Display -->
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="18dp"
-        android:text="Notes:"
+        android:layout_height="wrap_content"
+        android:text="Rapports"
         android:layout_marginTop="16dp"
         android:textStyle="bold"
         android:id="@+id/notesTextView"/>
