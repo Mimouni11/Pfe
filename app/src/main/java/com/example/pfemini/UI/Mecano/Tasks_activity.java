@@ -134,43 +134,36 @@ public class Tasks_activity extends AppCompatActivity {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if (response.isSuccessful()) {
-                    // Tasks fetched successfully
                     JsonObject jsonObject = response.body();
                     if (jsonObject != null && jsonObject.has("tasks")) {
                         JsonArray tasksArray = jsonObject.getAsJsonArray("tasks");
 
-                        // Clear existing task list
                         taskList.clear();
 
-                        // Iterate through tasksArray and add them to taskList
                         for (JsonElement taskElement : tasksArray) {
                             JsonObject taskObject = taskElement.getAsJsonObject();
                             String taskName = taskObject.get("task").getAsString();
                             String model = taskObject.get("model").getAsString();
                             String matricule = taskObject.get("matricule").getAsString();
+                            String taskType = taskObject.get("taskType").getAsString();
 
-                            Task task = new Task(taskName, model, matricule);
+                            Task task = new Task(taskName, model, matricule, taskType);
                             taskList.add(task);
                         }
 
-                        // Notify adapter that data has changed
                         runOnUiThread(() -> {
                             adapter.notifyDataSetChanged();
                         });
-                    } else {
-                        // Handle empty or missing tasks
                     }
-                } else {
-                    // Handle unsuccessful response
                 }
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-                // Handle failure
             }
         });
     }
+
 
 
 

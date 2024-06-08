@@ -3,16 +3,27 @@ package com.example.pfemini.Models;
 public class Task {
     private String name;
     private boolean completed;
-    private String mechanicName; // Add this field
-    private String model; // Add model field
-    private String matricule; // Add matricule field
+    private String mechanicName;
+    private String model;
+    private String matricule;
+    private String taskType;
 
     // Constructor with all fields
-    public Task(String name, String model, String matricule) {
+    public Task(String name, String matricule, String taskType) {
         this.name = name;
-        this.model = model;
         this.matricule = matricule;
-        this.completed = false; // Initialize as incomplete by default
+        this.taskType = taskType;
+        this.completed = false;
+    }
+
+    public Task(String taskName, String model, String matricule, String taskType) {
+        this.name = taskName;
+        this.model=model;
+        this.matricule = matricule;
+        this.taskType = taskType;
+
+        this.completed = false;
+
     }
 
     // Other existing getters and setters...
@@ -28,11 +39,11 @@ public class Task {
         this.completed = completed;
     }
 
-    public String getMechanicName() { // Add this getter method
+    public String getMechanicName() {
         return mechanicName;
     }
 
-    public void setMechanicName(String mechanicName) { // Add this setter method
+    public void setMechanicName(String mechanicName) {
         this.mechanicName = mechanicName;
     }
 
@@ -50,5 +61,13 @@ public class Task {
 
     public void setMatricule(String matricule) {
         this.matricule = matricule;
+    }
+
+    public String getTaskType() {
+        return taskType;
+    }
+
+    public void setTaskType(String taskType) {
+        this.taskType = taskType;
     }
 }

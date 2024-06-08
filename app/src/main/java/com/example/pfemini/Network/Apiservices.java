@@ -2,6 +2,8 @@ package com.example.pfemini.Network;
 
 import com.example.pfemini.Addresponse;
 import com.example.pfemini.Models.Changeresponse;
+import com.example.pfemini.Models.ResetPasswordRequest;
+import com.example.pfemini.Models.StatusRequest;
 import com.example.pfemini.UI.Chef.Notification;
 import com.example.pfemini.Models.DestinationCount;
 import com.example.pfemini.Models.DriverTask;
@@ -12,12 +14,14 @@ import com.google.gson.JsonObject;
 
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface Apiservices {
@@ -33,6 +37,9 @@ public interface Apiservices {
             @Field("old_password") String oldPassword,
             @Field("new_password") String newPassword
     );
+    @POST("/reset_password")
+    Call<ResponseBody> resetPassword(@Body ResetPasswordRequest resetPasswordRequest);
+
 
 
     @FormUrlEncoded
@@ -62,9 +69,7 @@ public interface Apiservices {
     Call<JsonObject> getPendingTasks();
     @FormUrlEncoded
     @POST("/confirm_task")
-    Call<Void> confirmTask(
-            @Field("taskName") String taskName
-    );
+    Call<Void> confirmTask(@Field("taskName") String taskName, @Field("matricule") String matricule, @Field("taskType") String taskType);
     @FormUrlEncoded
     @POST("/report")
     Call<Void> saveReport(
@@ -131,4 +136,8 @@ public interface Apiservices {
     Call<List<MonthlyDistance>> getMonthlyDistance(@Query("username") String username);
     @GET("/getDestinationCounts")
     Call<List<DestinationCount>> getDestinationCounts(@Query("username") String username);
+
+
+    @POST("/updateStatus")
+    Call<Void> updateStatus(@Body StatusRequest statusRequest);
 }

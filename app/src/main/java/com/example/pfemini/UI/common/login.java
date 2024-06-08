@@ -9,10 +9,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.pfemini.Models.ResetPasswordRequest;
+import com.example.pfemini.Models.StatusRequest;
 import com.example.pfemini.R;
 import com.example.pfemini.UI.Chef.chefActivity;
 import com.example.pfemini.Models.LoginRequest;
@@ -31,7 +34,6 @@ public class login extends AppCompatActivity {
     private EditText editTextUsername, editTextPassword;
     private Button buttonLogin;
     private Apiservices apiService;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +47,20 @@ public class login extends AppCompatActivity {
                 handleLogin();
             }
         });
+
+        TextView reset= findViewById(R.id.reset);
+        reset.setOnClickListener(new View.OnClickListener(){
+        @Override
+        public void onClick(View v) {
+            startActivity(new Intent(login.this, ResetPasswordActivity.class));
+        }
+    });
+
+
+
+
+
+
     }
 
     private void initViews() {
@@ -98,11 +114,32 @@ public class login extends AppCompatActivity {
         if ("success".equals(status)) {
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
             saveUserData(username, role);
+            updateStatus(username, "active"); // Set user status to active
             navigateToRoleSpecificActivity(role);
             finish();
         } else {
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void updateStatus(String username, String status) {
+        StatusRequest statusRequest = new StatusRequest(username, status);
+        Call<Void> call = apiService.updateStatus(statusRequest);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Log.d(TAG, "User status set to " + status);
+                } else {
+                    Log.e(TAG, "Failed to set user status to " + status);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.e(TAG, "Error setting user status to " + status + ": " + t.getMessage());
+            }
+        });
     }
 
     private void saveUserData(String username, String role) {

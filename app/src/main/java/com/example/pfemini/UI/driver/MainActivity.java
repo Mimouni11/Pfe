@@ -23,31 +23,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        viewPager2 = findViewById(R.id.pager);
-        int[] images = {R.drawable.scanqr,R.drawable.plans,R.drawable.comm,R.drawable.prof};
-        String[] heading = {"Scaner le qr code","Planifier votre voyage","Communiquer avec votre chef ","Consulter votre profile","Shakes"};
 
-
-        viewPagerItemArrayList = new ArrayList<>();
-
-        for (int i =0; i< images.length ; i++) {
-
-            viewpageritem viewPager = new viewpageritem(images[i], heading[i]);
-            viewPagerItemArrayList.add(viewPager);
-        }
-
-
-        VPAdapter vpAdapter = new VPAdapter(viewPagerItemArrayList);
-
-        viewPager2.setAdapter(vpAdapter);
-
-        viewPager2.setClipToPadding(false);
-
-        viewPager2.setClipChildren(false);
-
-        viewPager2.setOffscreenPageLimit(2);
-
-        viewPager2.getChildAt(0).setOverScrollMode(View.OVER_SCROLL_NEVER);
 
 
 

@@ -3,28 +3,44 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:padding="16dp">
 
     <TextView
-        android:id="@+id/textViewTaskName"
-        android:layout_width="wrap_content"
+        android:id="@+id/TaskName"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Task Name"
-        android:textSize="18sp"
-        android:textStyle="bold"/>
+        android:textSize="16sp"
+        android:textColor="@android:color/black" />
 
     <TextView
-        android:id="@+id/textViewMechanicName"
-        android:layout_width="wrap_content"
+        android:id="@+id/Matricule"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Matricule"
+        android:textSize="16sp"
+        android:textColor="@android:color/black" />
+
+    <TextView
+        android:id="@+id/TaskType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Task Type"
+        android:textSize="16sp"
+        android:textColor="@android:color/black" />
+
+    <TextView
+        android:id="@+id/MechanicName"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Mechanic Name"
         android:textSize="16sp"
-        android:layout_marginTop="4dp"/>
+        android:textColor="@android:color/black" />
 
     <Button
-        android:id="@+id/buttonConfirm"
+        android:id="@+id/confirmButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Confirm Task"
-        android:layout_marginTop="8dp"/>
+        android:text="Confirm" />
+
 </LinearLayout>

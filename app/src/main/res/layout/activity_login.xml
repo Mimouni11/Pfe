@@ -74,6 +74,14 @@
         android:text="S'authentifier"
         android:textColor="#fff" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/reset"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Forgot password?">
+
+        </TextView>
+
+    </LinearLayout>
 
     </LinearLayout>

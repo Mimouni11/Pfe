@@ -3,6 +3,8 @@ package com.example.pfemini.UI.Mecano;
 public class Note {
     private String matricule;
     private String content;
+    private String workDescription;
+    private String signature;
 
     public Note() {}
 
@@ -22,8 +24,26 @@ public class Note {
         this.content = content;
     }
 
-    public Note(String matricule, String content) {
+    public String getWorkDescription() {
+        return workDescription;
+    }
+
+    public void setWorkDescription(String workDescription) {
+        this.workDescription = workDescription;
+    }
+
+    public String getSignature() {
+        return signature;
+    }
+
+    public void setSignature(String signature) {
+        this.signature = signature;
+    }
+
+    public Note(String matricule, String content, String workDescription, String signature) {
         this.matricule = matricule;
         this.content = content;
+        this.workDescription = workDescription;
+        this.signature = signature;
     }
 }

@@ -56,25 +56,25 @@ public class Pending extends AppCompatActivity {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if (response.isSuccessful()) {
-                    // Tasks fetched successfully
                     JsonObject jsonObject = response.body();
                     if (jsonObject != null && jsonObject.has("tasks")) {
                         JsonArray tasksArray = jsonObject.getAsJsonArray("tasks");
 
-                        // Clear existing task list
                         taskList.clear();
 
-                        // Iterate through tasksArray and add them to taskList
                         for (JsonElement taskElement : tasksArray) {
                             JsonObject taskObj = taskElement.getAsJsonObject();
-                            String mechanicName = taskObj.get("mechanic").getAsString();
-                            String taskName = taskObj.get("task").getAsString();
-                            Task task = new Task(taskName,"","");
+
+                            String mechanicName = taskObj.has("mechanic") && !taskObj.get("mechanic").isJsonNull() ? taskObj.get("mechanic").getAsString() : "Unknown";
+                            String taskName = taskObj.has("task") && !taskObj.get("task").isJsonNull() ? taskObj.get("task").getAsString() : "Unknown";
+                            String matricule = taskObj.has("matricule") && !taskObj.get("matricule").isJsonNull() ? taskObj.get("matricule").getAsString() : "Unknown";
+                            String taskType = taskObj.has("taskType") && !taskObj.get("taskType").isJsonNull() ? taskObj.get("taskType").getAsString() : "Unknown";
+
+                            Task task = new Task(taskName, matricule, taskType);
                             task.setMechanicName(mechanicName);
                             taskList.add(task);
                         }
 
-                        // Notify adapter that data has changed
                         runOnUiThread(() -> {
                             adapter.notifyDataSetChanged();
                         });
@@ -93,10 +93,13 @@ public class Pending extends AppCompatActivity {
         });
     }
 
+
+
+
     private void confirmTask(Task task) {
         // Implement the logic to confirm the task
         Apiservices apiService = RetrofitClient.getClient().create(Apiservices.class);
-        Call<Void> call = apiService.confirmTask(task.getName());
+        Call<Void> call = apiService.confirmTask(task.getName(), task.getMatricule(), task.getTaskType());
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
@@ -119,5 +122,7 @@ public class Pending extends AppCompatActivity {
             }
         });
     }
+
+
 
 }

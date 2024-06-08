@@ -1,48 +1,40 @@
-<?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="4dp"
-    android:layout_marginTop="8dp"
-    android:layout_marginBottom="8dp">
+    android:orientation="vertical"
+    android:padding="16dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/textViewTaskName"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp">
+        android:text="Task Name"
+        android:textSize="16sp" />
 
-        <CheckBox
-            android:id="@+id/checkboxTask"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"/>
+    <TextView
+        android:id="@+id/textViewModel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Model"
+        android:textSize="14sp" />
 
-        <TextView
-            android:id="@+id/textViewTaskName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginStart="16dp"
-            android:textSize="16sp"
-            android:textColor="@android:color/black"/>
-        <TextView
-            android:id="@+id/textViewModel"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginStart="16dp"
-            android:textSize="16sp"
-            android:textColor="@android:color/black"/>
-        <TextView
-            android:id="@+id/textViewMatricule"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginStart="16dp"
-            android:textSize="16sp"
-            android:textColor="@android:color/black"/>
-    </LinearLayout>
-</com.google.android.material.card.MaterialCardView>
+    <TextView
+        android:id="@+id/textViewMatricule"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Matricule"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/textViewTaskType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Task Type"
+        android:textSize="14sp" />
+
+    <CheckBox
+        android:id="@+id/checkboxTask"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

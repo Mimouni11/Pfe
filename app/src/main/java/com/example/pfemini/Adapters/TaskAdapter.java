@@ -34,26 +34,20 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     public void onBindViewHolder(@NonNull TaskViewHolder holder, int position) {
         Task task = taskList.get(position);
         holder.textViewTaskName.setText(task.getName());
-        holder.textViewModel.setText(task.getModel()); // Set model text
-        holder.textViewMatricule.setText(task.getMatricule()); // Set matricule text
+        holder.textViewModel.setText(task.getModel());
+        holder.textViewMatricule.setText(task.getMatricule());
+        holder.textViewTaskType.setText(task.getTaskType());
 
-        // Get the saved state of the checkbox from SharedPreferences
         boolean isChecked = sharedPreferences.getBoolean(task.getName(), false);
         holder.checkboxTask.setChecked(isChecked);
 
-        holder.checkboxTask.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                task.setCompleted(isChecked);
-
-                // Save the state of the checkbox in SharedPreferences
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean(task.getName(), isChecked);
-                editor.apply();
-            }
+        holder.checkboxTask.setOnCheckedChangeListener((buttonView, isChecked1) -> {
+            task.setCompleted(isChecked1);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean(task.getName(), isChecked1);
+            editor.apply();
         });
     }
-
     @Override
     public int getItemCount() {
         return taskList.size();
@@ -63,6 +57,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         TextView textViewTaskName;
         TextView textViewModel;
         TextView textViewMatricule;
+        TextView textViewTaskType;
         CheckBox checkboxTask;
 
         public TaskViewHolder(@NonNull View itemView) {
@@ -70,6 +65,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             textViewTaskName = itemView.findViewById(R.id.textViewTaskName);
             textViewModel = itemView.findViewById(R.id.textViewModel);
             textViewMatricule = itemView.findViewById(R.id.textViewMatricule);
+            textViewTaskType = itemView.findViewById(R.id.textViewTaskType);
             checkboxTask = itemView.findViewById(R.id.checkboxTask);
         }
     }

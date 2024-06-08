@@ -172,14 +172,19 @@ public class Rapport_activity extends AppCompatActivity {
         for (int i = 0; i < noteCount; i++) {
             String title = sharedPreferences.getString("note_title_" + i, "");
             String content = sharedPreferences.getString("note_content_" + i, "");
+            String workDescription = sharedPreferences.getString("note_work_description_" + i, "");
+            String signature = sharedPreferences.getString("note_signature_" + i, "");
 
             Note note = new Note();
             note.setMatricule(title);
             note.setContent(content);
+            note.setWorkDescription(workDescription);
+            note.setSignature(signature);
 
             noteList.add(note);
         }
     }
+
 
     private void sendNotification(String vehicleId, String issueDescription) {
         String chefUsername = "kaka";
@@ -210,11 +215,15 @@ public class Rapport_activity extends AppCompatActivity {
     private void saveNote() {
         String title = vehicleIdEditText.getText().toString().trim();
         String content = issueDescriptionEditText.getText().toString().trim();
+        String workDescription = workDescriptionEditText.getText().toString().trim();
+        String signature = signatureEditText.getText().toString().trim();
 
-        if (!title.isEmpty() && !content.isEmpty()) {
+        if (!title.isEmpty() && !content.isEmpty() && !workDescription.isEmpty() && !signature.isEmpty()) {
             Note note = new Note();
             note.setMatricule(title);
             note.setContent(content);
+            note.setWorkDescription(workDescription);
+            note.setSignature(signature);
 
             noteList.add(note);
             saveNotesToPreferences();
@@ -235,9 +244,13 @@ public class Rapport_activity extends AppCompatActivity {
         View noteView = getLayoutInflater().inflate(R.layout.note_item, null);
         TextView titleTextView = noteView.findViewById(R.id.titleTextView);
         TextView contentTextView = noteView.findViewById(R.id.contentTextView);
+        TextView workDescriptionTextView = noteView.findViewById(R.id.workDescriptionTextView);
+        TextView signatureTextView = noteView.findViewById(R.id.signatureTextView);
 
         titleTextView.setText(note.getMatricule());
         contentTextView.setText(note.getContent());
+        workDescriptionTextView.setText(note.getWorkDescription());
+        signatureTextView.setText(note.getSignature());
 
         noteView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -249,7 +262,6 @@ public class Rapport_activity extends AppCompatActivity {
 
         notesContainer.addView(noteView);
     }
-
     private void showDeleteDialog(final Note note) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Delete this note.");
@@ -284,6 +296,8 @@ public class Rapport_activity extends AppCompatActivity {
             Note note = noteList.get(i);
             editor.putString("note_title_" + i, note.getMatricule());
             editor.putString("note_content_" + i, note.getContent());
+            editor.putString("note_work_description_" + i, note.getWorkDescription());
+            editor.putString("note_signature_" + i, note.getSignature());
         }
         editor.apply();
     }
