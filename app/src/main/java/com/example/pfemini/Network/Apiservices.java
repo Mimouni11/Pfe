@@ -4,6 +4,8 @@ import com.example.pfemini.Addresponse;
 import com.example.pfemini.Models.Changeresponse;
 import com.example.pfemini.Models.ResetPasswordRequest;
 import com.example.pfemini.Models.StatusRequest;
+import com.example.pfemini.Models.TaskCount;
+import com.example.pfemini.Models.TaskDoneRatio;
 import com.example.pfemini.UI.Chef.Notification;
 import com.example.pfemini.Models.DestinationCount;
 import com.example.pfemini.Models.DriverTask;
@@ -140,4 +142,12 @@ public interface Apiservices {
 
     @POST("/updateStatus")
     Call<Void> updateStatus(@Body StatusRequest statusRequest);
+
+    @GET("/mechanicTaskCounts") // Update the endpoint URL accordingly
+    Call<List<TaskCount>> getTaskCounts(@Query("username") String username);
+
+
+    @GET("/taskDoneRatio")
+    Call<List<TaskDoneRatio>> getDoneRatio(@Query("username") String username);
 }
+

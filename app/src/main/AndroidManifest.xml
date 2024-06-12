@@ -26,6 +26,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".UI.Mecano.Dashboard"
+            android:exported="false" />
+        <activity
             android:name=".UI.common.ResetPasswordActivity"
             android:configChanges="orientation|screenSize"
             android:exported="false" />

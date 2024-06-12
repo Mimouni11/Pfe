@@ -23,6 +23,7 @@ public class mecano_main extends AppCompatActivity {
                 switch (index) {
                     case 0:
                         // Button 0 clicked, navigate to ActivityA
+                        startActivity(new Intent(mecano_main.this, Dashboard.class));
 
                         break;
                     case 1:
