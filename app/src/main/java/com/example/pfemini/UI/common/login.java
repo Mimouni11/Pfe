@@ -110,14 +110,18 @@ public class login extends AppCompatActivity {
         String status = loginResponse.getStatus();
         String message = loginResponse.getMessage();
         String role = loginResponse.getRole();
+        String type = loginResponse.getType();
+
+        Log.d(TAG, "Login response: status=" + status + ", message=" + message + ", role=" + role + ", type=" + type);
 
         if ("success".equals(status)) {
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-            saveUserData(username, role);
-            updateStatus(username, "active"); // Set user status to active
+            saveUserData(username, role, type);
+            updateStatus(username, "active");
             navigateToRoleSpecificActivity(role);
             finish();
         } else {
+            Log.e(TAG, "Login response status failed: " + message);
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         }
     }
@@ -142,15 +146,24 @@ public class login extends AppCompatActivity {
         });
     }
 
-    private void saveUserData(String username, String role) {
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("username", username);
-        editor.putString("role", role);
-        editor.apply();
+    private void saveUserData(String username, String role, String type) {
+        try {
+            SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("username", username);
+            editor.putString("role", role);
+            if ("driver".equals(role)) {
+                editor.putString("type", type);
+            }
+            editor.apply();
+            Log.d(TAG, "User data saved: username=" + username + ", role=" + role + ", type=" + type);
+        } catch (Exception e) {
+            Log.e(TAG, "Error saving user data: " + e.getMessage());
+        }
     }
 
     private void navigateToRoleSpecificActivity(String role) {
+        Log.d(TAG, "Navigating to activity for role: " + role);
         switch (role) {
             case "mecano":
                 startActivity(new Intent(this, mecano_main.class));

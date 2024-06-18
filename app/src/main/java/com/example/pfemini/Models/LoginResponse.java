@@ -4,8 +4,9 @@ public class LoginResponse {
     private String status;
     private String message;
     private String role;
+    private String type; // Add this field
 
-    // Getters and Setters
+    // Getters and setters for the fields
     public String getStatus() {
         return status;
     }
@@ -28,5 +29,13 @@ public class LoginResponse {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getType() {
+        return type; // Add this getter
+    }
+
+    public void setType(String type) {
+        this.type = type; // Add this setter
     }
 }
