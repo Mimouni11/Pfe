@@ -2,6 +2,7 @@ package com.example.pfemini.Network;
 
 import com.example.pfemini.Addresponse;
 import com.example.pfemini.Models.Changeresponse;
+import com.example.pfemini.Models.MatriculeResponse;
 import com.example.pfemini.Models.ResetPasswordRequest;
 import com.example.pfemini.Models.StatusRequest;
 import com.example.pfemini.Models.TaskCount;
@@ -59,6 +60,8 @@ public interface Apiservices {
     @GET("tasks-driver")
     Call<List<DriverTask>> getTasksForScannedContent(@Query("content") String content, @Query("username") String username);
 
+    @GET("/get-matricule")
+    Call<MatriculeResponse> getMatricule(@Query("username") String username);
 
     @FormUrlEncoded
     @POST("/update_task_status")

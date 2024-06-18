@@ -27,11 +27,23 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <!-- Styled box for matricule -->
+        <LinearLayout
+            android:id="@+id/matricule_box"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="320dp"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:background="@drawable/styled_box_background"
+            app:layout_constraintTop_toBottomOf="@id/gifimageview"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:gravity="center">
+
+        </LinearLayout>
 
     </FrameLayout>
-
-
-
 
     <com.ramotion.circlemenu.CircleMenuView
         android:id="@+id/menu"
@@ -43,5 +55,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <TextView
+        android:id="@+id/matricule_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:text="Matricule"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/menu"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_container" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
