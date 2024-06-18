@@ -30,12 +30,14 @@ import retrofit2.Response;
 
 public class scan extends AppCompatActivity {
     private static final String PREF_LAST_SCAN_CONTENT = "last_scan_content";
+    private static final String PREF_LAST_SCAN_USER = "last_scan_user";
 
     Button scannerButton;
     RecyclerView recyclerViewTasks;
     DriverTaskAdapter adapter;
     SharedPreferences preferences;
     Button confirmButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,12 +47,34 @@ public class scan extends AppCompatActivity {
         confirmButton = findViewById(R.id.confirm);
         scannerButton = findViewById(R.id.scanner);
         recyclerViewTasks = findViewById(R.id.recyclerViewTasks);
-        preferences = getSharedPreferences(getPackageName(), MODE_PRIVATE);
+        preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
 
         // Set up RecyclerView
         recyclerViewTasks.setLayoutManager(new LinearLayoutManager(this));
         adapter = new DriverTaskAdapter(new ArrayList<>(), preferences);
         recyclerViewTasks.setAdapter(adapter);
+
+        // Get the logged-in username
+        String username = preferences.getString("username", null);
+
+        // Check if the username has changed
+        String lastScanUser = preferences.getString(PREF_LAST_SCAN_USER, null);
+        if (username != null && !username.equals(lastScanUser)) {
+            // User has changed, clear the last scanned content and update last scan user
+            preferences.edit().remove(PREF_LAST_SCAN_CONTENT).apply();
+            preferences.edit().putString(PREF_LAST_SCAN_USER, username).apply();
+            showScanButton();
+        } else {
+            // Check if QR code has been scanned previously
+            String lastScanContent = preferences.getString(PREF_LAST_SCAN_CONTENT, null);
+            if (lastScanContent != null) {
+                // If scanned previously, fetch and display tasks
+                sendScannedContentToServer(lastScanContent);
+            } else {
+                // If not scanned previously, display button to scan QR code
+                showScanButton();
+            }
+        }
 
         scannerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,20 +82,6 @@ public class scan extends AppCompatActivity {
                 initiateScan();
             }
         });
-
-
-
-
-        // Check if QR code has been scanned previously
-        String lastScanContent = preferences.getString(PREF_LAST_SCAN_CONTENT, null);
-        if (lastScanContent != null) {
-            // If scanned previously, fetch and display tasks
-            sendScannedContentToServer(lastScanContent);
-        } else {
-            // If not scanned previously, display button to scan QR code
-            scannerButton.setVisibility(View.VISIBLE);
-            recyclerViewTasks.setVisibility(View.GONE);
-        }
     }
 
     private void initiateScan() {
@@ -82,16 +92,16 @@ public class scan extends AppCompatActivity {
         intentIntegrator.initiateScan();
     }
 
+    private void showScanButton() {
+        scannerButton.setVisibility(View.VISIBLE);
+        confirmButton.setVisibility(View.GONE);
+        recyclerViewTasks.setVisibility(View.GONE);
+    }
 
-
-    private void updateButtonVisibility() {
-        if (adapter.getItemCount() > 0) {
-            scannerButton.setVisibility(View.GONE);
-            confirmButton.setVisibility(View.VISIBLE);
-        } else {
-            scannerButton.setVisibility(View.VISIBLE);
-            confirmButton.setVisibility(View.GONE);
-        }
+    private void showTasks() {
+        scannerButton.setVisibility(View.GONE);
+        confirmButton.setVisibility(View.VISIBLE);
+        recyclerViewTasks.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -110,8 +120,16 @@ public class scan extends AppCompatActivity {
     }
 
     private void sendScannedContentToServer(String content) {
+        // Get the logged-in username
+        String username = preferences.getString("username", null);
+        if (username == null) {
+            // Handle the case where the username is not available
+            Toast.makeText(this, "Username is missing", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         Apiservices apiService = RetrofitClient.getClient().create(Apiservices.class);
-        Call<List<DriverTask>> call = apiService.getTasksForScannedContent(content);
+        Call<List<DriverTask>> call = apiService.getTasksForScannedContent(content, username);
         call.enqueue(new Callback<List<DriverTask>>() {
             @Override
             public void onResponse(Call<List<DriverTask>> call, Response<List<DriverTask>> response) {
@@ -139,12 +157,11 @@ public class scan extends AppCompatActivity {
     }
 
     private void displayTasks(List<DriverTask> tasks) {
-        // Add tasks to the RecyclerView adapter
-        adapter.setTaskList(tasks);
+        // Clear existing tasks before adding new ones
+        adapter.setTaskList(new ArrayList<>()); // Clear the existing list
+        adapter.setTaskList(tasks); // Set the new task list
         // Show the RecyclerView and hide the button
-        recyclerViewTasks.setVisibility(View.VISIBLE);
-        scannerButton.setVisibility(View.GONE);
-        updateButtonVisibility(); // Update button visibility
+        showTasks();
     }
 
     @Override

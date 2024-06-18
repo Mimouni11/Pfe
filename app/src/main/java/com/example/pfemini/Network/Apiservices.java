@@ -56,8 +56,8 @@ public interface Apiservices {
     Call<JsonObject> getTasks(@Query("username") String username);
 
 
-    @GET("/tasks-driver")
-    Call<List<DriverTask>> getTasksForScannedContent(@Query("content") String content);
+    @GET("tasks-driver")
+    Call<List<DriverTask>> getTasksForScannedContent(@Query("content") String content, @Query("username") String username);
 
 
     @FormUrlEncoded

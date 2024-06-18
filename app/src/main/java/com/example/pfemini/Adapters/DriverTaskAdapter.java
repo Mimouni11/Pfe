@@ -23,7 +23,7 @@ public class DriverTaskAdapter extends RecyclerView.Adapter<DriverTaskAdapter.Ta
 
     public DriverTaskAdapter(List<DriverTask> taskList, SharedPreferences preferences) {
         this.taskList = taskList;
-        this.prefs = prefs;
+        this.prefs = preferences;
     }
 
     public void setTaskList(List<DriverTask> taskList) {
